@@ -11,7 +11,29 @@
 |
 */
 
-Route::get('/', function()
+Route::get('login', function()
 {
 	return View::make('login');
+});
+
+Route::get('new/{usuario}/{email}/{password}', function($usuario, $email, $password)
+{
+	Usuario::create(array(
+        'usuario'     => $usuario,
+        'email'    => $email,
+        'passhash' => Hash::make($password),
+        'super' => false,
+    ));
+    return Redirect::to('/')->with('message', "Usuario: $usuario, creado satisfactoriamente");
+});
+
+Route::get('usuarios', function()
+{
+	$usuarios = Usuario::all();
+    return View::make('usuarios')->with('usuarios', $usuarios);
+});
+
+Route::get('/', function()
+{
+	return View::make('hello');
 });

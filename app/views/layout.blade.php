@@ -19,16 +19,14 @@
 	            <span class="icon-bar"></span>
 	            <span class="icon-bar"></span>
 	          </button>
-	          <a class="navbar-brand" href="#">Mental Health</a>
+	          <a class="navbar-brand" href="{{asset('/')}}">Mental Health</a>
 	        </div>
 	        <!-- Aqui Comienza el Menú -->
 	        <div id="navbar" class="collapse navbar-collapse">
 	          <ul class="nav navbar-nav">
-	        	@section('menu')
-	            <li><a href="#">Home</a></li>
-	            <li><a href="#">About</a></li>
-	            <li><a href="#">Contact</a></li>
-	        	@show
+	        	@foreach(Config::get('menu') as $item)
+	        		<li><a href="{{$item['url']}}">{{$item['nombre']}}</a></li>
+	        	@endforeach
 	          </ul>
 	        </div>
 	        <!-- Fin del Menú -->
