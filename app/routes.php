@@ -13,5 +13,5 @@
 
 Route::get('/', function()
 {
-	echo "Yo Soy El Que Soy";
+	return View::make('hello');
 });
