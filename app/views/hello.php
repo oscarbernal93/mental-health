@@ -35,7 +35,7 @@
 </head>
 <body>
 	<div class="welcome">
-		<h1>¡¡Yo Soy El Que Soy!!</h1>
+		<h1>¡¡אֶהְיֶה אֲשֶׁר אֶהְיֶה!!</h1>
 	</div>
 </body>
 </html>
