@@ -11,11 +11,6 @@
 |
 */
 
-Route::get('login', function()
-{
-	return View::make('login');
-});
-
 Route::get('new/{usuario}/{email}/{password}', function($usuario, $email, $password)
 {
 	Usuario::create(array(
@@ -27,11 +22,10 @@ Route::get('new/{usuario}/{email}/{password}', function($usuario, $email, $passw
     return Redirect::to('/')->with('message', "Usuario: $usuario, creado satisfactoriamente");
 });
 
-Route::get('usuarios', function()
-{
-	$usuarios = Usuario::all();
-    return View::make('usuarios')->with('usuarios', $usuarios);
-});
+Route::get('usuarios', 'UsuarioController@mostrarUsuarios');
+Route::get('persona/{usuario}', 'UsuarioController@detallesUsuario');
+Route::get('login', 'UsuarioController@formularioLogin');
+Route::post('login', 'UsuarioController@iniciarSesion');
 
 Route::get('/', function()
 {
