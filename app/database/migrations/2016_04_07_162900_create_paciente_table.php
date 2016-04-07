@@ -22,7 +22,6 @@ class CreatePacienteTable extends Migration {
 		        $table->softDeletes();
 
 		        //definicion de llaves
-		        $table->primary('id');
 		        $table->foreign('id_eps')->references('id')->on('eps');
 		        $table->foreign('id_perfil')->references('id')->on('perfil');
 		    });

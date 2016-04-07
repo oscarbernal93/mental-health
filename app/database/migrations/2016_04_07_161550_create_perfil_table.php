@@ -21,7 +21,6 @@ class CreatePerfilTable extends Migration {
 		        $table->softDeletes();
 
 		        //definicion de llaves
-		        $table->primary('usuario');
 		    });
 	}
 
