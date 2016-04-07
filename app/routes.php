@@ -31,6 +31,5 @@ Route::get('/', function()
 {
 	var_dump(getenv('OPENSHIFT_MYSQL_DB_HOST'));
 	var_dump(getenv('OPENSHIFT_MYSQL_DB_PORT'));
-	die();
 	return View::make('hello');
 });
