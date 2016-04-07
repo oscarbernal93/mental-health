@@ -15,7 +15,7 @@ class Eps extends Migration {
 		Schema::create('eps', function($table)
 		    {
 		        $table->increments('id');
-		        $table->string('nombre')
+		        $table->string('nombre');
 		        $table->string('telefono');
 		        $table->string('direccion');
 		        $table->text('info_sedes');
