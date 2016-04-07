@@ -14,7 +14,7 @@ class CreateEpsTable extends Migration {
 	{
 		Schema::create('eps', function($table)
 		    {
-		        $table->increments('id',true);
+		        $table->integer('id',true);
 		        $table->string('nombre');
 		        $table->string('telefono');
 		        $table->string('direccion');
