@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Eps extends Migration {
+class CreateEpsTable extends Migration {
 
 	/**
 	 * Run the migrations.

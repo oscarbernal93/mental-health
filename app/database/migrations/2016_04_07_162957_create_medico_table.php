@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class Medico extends Migration {
+class CreateMedicoTable extends Migration {
 
 	/**
 	 * Run the migrations.
