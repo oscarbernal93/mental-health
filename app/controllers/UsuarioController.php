@@ -2,42 +2,40 @@
 
 class UsuarioController extends BaseController {
 
-	/*
-	|--------------------------------------------------------------------------
-	| Default Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| You may wish to use controllers instead of, or in addition to, Closure
-	| based routes. That's great! Here is an example controller method to
-	| get you started. To route to this controller, just add the route:
-	|
-	|	Route::get('/', 'HomeController@showWelcome');
-	|
-	*/
+	private $repositorio_usuarios;
 
+	function __construct()
+	{
+		$this->repositorio_usuarios = new UsuarioRepo;
+	}
+
+	//muestra una lista de todos los usuarios existentes
 	public function mostrarUsuarios()
 	{
-		$usuarios = Usuario::all();
+		$usuarios = $this->repositorio_usuarios->listarUsuarios();
     	return View::make('usuarios')->with('usuarios', $usuarios);
 	}
 
+	//muestra los detalles de un usuario especifico
 	public function detallesUsuario($usuario)
 	{
-		$persona = Usuario::find($usuario);
+		$persona = $this->repositorio_usuarios->obtenerUsuario($usuario);
     	return View::make('persona')->with('persona', $persona);
 	}
 
+	//carga el formulario de login y lo entrega a la vista
 	public function formularioLogin()
 	{
 		return View::make('login');
 	}
 
+	//
 	public function iniciarSesion()
 	{
 		$usuario = Input::get('username');
 		$password = Input::get('password');
 
-		$persona = Usuario::find($usuario);
+		$persona = $this->repositorio_usuarios->obtenerUsuario($usuario);
 		if(!is_null($persona)){
 			if (Hash::check($password, $persona->passhash)) {
 				Auth::login($persona);
