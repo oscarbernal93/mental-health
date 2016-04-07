@@ -14,7 +14,7 @@ class CreateMedicoTable extends Migration {
 	{
 		Schema::create('medico', function($table)
 		    {
-		        $table->increments('id');
+		        $table->integer('id',true);
 		        $table->integer('id_eps');
 		        $table->boolean('aprobado');
 		        $table->string('email');
@@ -32,6 +32,7 @@ class CreateMedicoTable extends Migration {
 		        $table->softDeletes();
 
 		        //definicion de llaves
+		        $table->primary('id');
 		        $table->foreign('id_eps')->references('id')->on('eps');
 		    });
 	}

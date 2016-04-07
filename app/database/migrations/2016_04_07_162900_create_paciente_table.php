@@ -14,7 +14,7 @@ class CreatePacienteTable extends Migration {
 	{
 		Schema::create('paciente', function($table)
 		    {
-		        $table->increments('id');
+		        $table->integer('id',true);
 		        $table->integer('id_perfil');
 		        $table->integer('id_eps');
 		        $table->boolean('aprobado');
@@ -22,6 +22,7 @@ class CreatePacienteTable extends Migration {
 		        $table->softDeletes();
 
 		        //definicion de llaves
+		        $table->primary('id');
 		        $table->foreign('id_eps')->references('id')->on('eps');
 		        $table->foreign('id_perfil')->references('id')->on('perfil');
 		    });

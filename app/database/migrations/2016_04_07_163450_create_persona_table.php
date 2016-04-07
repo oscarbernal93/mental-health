@@ -14,7 +14,7 @@ class CreatePersonaTable extends Migration {
 	{
 		Schema::create('persona', function($table)
 		    {
-		        $table->increments('id');
+		        $table->integer('id',true);
 		        $table->integer('id_paciente')->nullable();
 		        $table->integer('id_medico')->nullable();
 		        $table->string('nombre');
@@ -29,6 +29,7 @@ class CreatePersonaTable extends Migration {
 		        $table->softDeletes();
 
 		        //definicion de llaves
+		        $table->primary('id');
 		        $table->foreign('id_eps')->references('id')->on('eps');
 		    });
 	}

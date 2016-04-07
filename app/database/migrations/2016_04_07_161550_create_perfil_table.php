@@ -14,13 +14,14 @@ class CreatePerfilTable extends Migration {
 	{
 		Schema::create('perfil', function($table)
 		    {
-		        $table->increments('id');
+		        $table->integer('id',true);
 		        $table->string('nombre');
 		        $table->string('descripcion');
 		        $table->timestamps();
 		        $table->softDeletes();
 
 		        //definicion de llaves
+		        $table->primary('usuario');
 		    });
 	}
 

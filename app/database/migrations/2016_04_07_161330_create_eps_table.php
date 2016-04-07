@@ -14,7 +14,7 @@ class CreateEpsTable extends Migration {
 	{
 		Schema::create('eps', function($table)
 		    {
-		        $table->increments('id');
+		        $table->increments('id',true);
 		        $table->string('nombre');
 		        $table->string('telefono');
 		        $table->string('direccion');
@@ -26,6 +26,7 @@ class CreateEpsTable extends Migration {
 		        $table->softDeletes();
 
 		        //definicion de llaves
+		        $table->primary('id');
 		    });
 	}
 
