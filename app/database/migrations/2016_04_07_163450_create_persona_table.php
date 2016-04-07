@@ -29,7 +29,8 @@ class CreatePersonaTable extends Migration {
 		        $table->softDeletes();
 
 		        //definicion de llaves
-		        $table->foreign('id_eps')->references('id')->on('eps');
+		        $table->foreign('id_paciente')->references('id')->on('paciente');
+		        $table->foreign('id_medico')->references('id')->on('medico');
 		    });
 	}
 
