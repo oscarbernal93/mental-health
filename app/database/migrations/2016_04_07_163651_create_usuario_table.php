@@ -15,8 +15,8 @@ class CreateUsuarioTable extends Migration {
 		Schema::create('usuario', function($table)
 		    {
 		        $table->string('usuario');
-		        $table->integer('id_persona',10);
-		        $table->integer('id_eps',10);
+		        $table->integer('id_persona');
+		        $table->integer('id_eps');
 		        $table->string('email')->unique();
 		        $table->string('passhash');
 		        $table->boolean('admin');
