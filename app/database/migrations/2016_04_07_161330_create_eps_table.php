@@ -26,7 +26,6 @@ class CreateEpsTable extends Migration {
 		        $table->softDeletes();
 
 		        //definicion de llaves
-		        $table->primary('id');
 		    });
 	}
 
