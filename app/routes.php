@@ -30,5 +30,4 @@ Route::post('login', 'UsuarioController@iniciarSesion');
 Route::get('/', function()
 {
 	return View::make('hello');
-	//de nada
 });
