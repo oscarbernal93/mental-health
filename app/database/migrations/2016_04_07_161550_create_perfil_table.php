@@ -15,7 +15,7 @@ class Perfil extends Migration {
 		Schema::create('perfil', function($table)
 		    {
 		        $table->increments('id');
-		        $table->string('nombre')
+		        $table->string('nombre');
 		        $table->string('descripcion');
 		        $table->timestamps();
 		        $table->softDeletes();
