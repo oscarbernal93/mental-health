@@ -18,7 +18,7 @@ class Eps extends Eloquent{
 
 	public function usuarios()
 	{
-		return $this->hasMany('Usuario', 'id_eps', 'id');
+		return $this->hasOne('Usuario', 'id_eps', 'id');
 	}
 	public function medicos()
 	{

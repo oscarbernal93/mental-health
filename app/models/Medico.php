@@ -1,13 +1,13 @@
 <?php
 
-class Paciente extends Eloquent{
+class Medico extends Eloquent{
 
 	/**
 	 * The database table used by the model.
 	 *
 	 * @var string
 	 */
-	protected $table = 'paciente';
+	protected $table = 'medico';
 	protected $primaryKey = 'id';
 
 	/**
@@ -15,11 +15,6 @@ class Paciente extends Eloquent{
 	 *
 	 * @var array
 	 */
-
-	public function perfil()
-	{
-		return $this->BelongsTo('Perfil');
-	}
 
 	public function eps()
 	{
