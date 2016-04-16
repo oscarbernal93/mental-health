@@ -32,3 +32,10 @@ Route::get('/', function()
 {
 	return View::make('hello');
 });
+
+Route::get('/mail', function()
+{
+	$conf = mail('oscarbernal93@gmail.com', 'Correo de Prueba', "Todo va bien, las cosas marchan en orden, de acuerdo a lo planeado");
+	var_dump($conf);
+	die("ok");
+});
