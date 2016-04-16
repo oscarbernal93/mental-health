@@ -6,6 +6,8 @@ return
 			  'nombre' => 'Iniciar Sesion'),
 		array('url' => action('UsuarioController@tipoRegistro'),
 			  'nombre' => 'Registrarse'),
+		array('url' => action('UsuarioController@listarSolicitudes'),
+			  'nombre' => 'Listar Solicitudes'),
 	);
 
 

@@ -9,6 +9,8 @@ class Medico extends Eloquent{
 	 */
 	protected $table = 'medico';
 	protected $primaryKey = 'id';
+	use SoftDeletingTrait;
+    protected $dates = array('deleted_at');
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -23,6 +25,6 @@ class Medico extends Eloquent{
 
 	public function persona()
     {
-        return $this->hasOne('Persona', 'id_persona', 'id');
+        return $this->hasOne('Persona', 'id_medico', 'id');
     }
 }

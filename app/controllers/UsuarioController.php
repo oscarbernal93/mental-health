@@ -3,11 +3,15 @@
 class UsuarioController extends BaseController {
 
 	private $repositorio_usuarios;
+	private $repositorio_pacientes;
+	private $repositorio_medicos;
 	private $repositorio_eps;
 
 	function __construct()
 	{
 		$this->repositorio_usuarios = new UsuarioRepo;
+		$this->repositorio_pacientes = new PacienteRepo;
+		$this->repositorio_medicos = new MedicoRepo;
 		$this->repositorio_eps = new EpsRepo;
 	}
 
@@ -121,6 +125,42 @@ class UsuarioController extends BaseController {
 		else
 		{
 			return Redirect::back()->with('message','Seleccione un tipo Valido');
+		}
+	}
+
+	//lista las solicitudes segun el rol del usuario logueado
+	public function listarSolicitudes()
+	{
+		if (Auth::check())
+		{
+		    if(1 == Auth::user()->admin)
+		    {
+		    	#es un administrador
+		    	//se listan las solicitudes de eps
+				$solicitudes = $this->repositorio_eps->listarSolicitudes();
+				return View::make('eps.solicitudes')->with('solicitudes',$solicitudes);
+		    }
+		    elseif(!is_null(Auth::user()->eps))
+		    {
+		    	#se verifica si administra una eps
+		    	if (Auth::user()->eps->aprobado)
+		    	{
+		    		#se verifica que la eps este aprovada
+		    		//se listan las solicitudes de medicos y pacientes
+		    		$solicitudes1 = $this->repositorio_pacientes->listarSolicitudes(Auth::user()->eps->id);
+					$solicitudes2 = $this->repositorio_medicos->listarSolicitudes(Auth::user()->eps->id);
+					return View::make('solicitudes')->with('pacientes',$solicitudes1)
+													->with('medicos',$solicitudes2);
+		    	}
+		    }
+		    else
+		    {
+		    	return Redirect::to('/')->with('message','Usted no tiene acceso a la gestion de solicitudes');
+		    }
+		}
+		else
+		{
+			return Redirect::to('/')->with('message','Usted no ha iniciado sesion en el sistema');
 		}
 	}
 }

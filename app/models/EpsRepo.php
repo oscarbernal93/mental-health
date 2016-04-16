@@ -35,4 +35,10 @@ class EpsRepo {
 		return Eps::query()->where('aprobado','=',1)->get();
 	}
 
+	//crea un collection con todos las solicitudes pendientes de aprobacion
+	public function listarSolicitudes()
+	{
+		return Eps::query()->where('aprobado','=',0)->get();
+	}
+
 }

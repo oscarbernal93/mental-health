@@ -9,6 +9,8 @@ class Eps extends Eloquent{
 	 */
 	protected $table = 'eps';
 	protected $primaryKey = 'id';
+	use SoftDeletingTrait;
+    protected $dates = array('deleted_at');
 
 	/**
 	 * The attributes excluded from the model's JSON form.

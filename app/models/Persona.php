@@ -9,6 +9,8 @@ class Persona extends Eloquent{
 	 */
 	protected $table = 'persona';
 	protected $primaryKey = 'id';
+	use SoftDeletingTrait;
+    protected $dates = array('deleted_at');
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -28,6 +30,6 @@ class Persona extends Eloquent{
 
 	public function usuario()
     {
-        return $this->hasOne('Usuario');
+        return $this->hasOne('Usuario','id_persona');
     }
 }

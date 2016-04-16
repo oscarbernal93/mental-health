@@ -16,6 +16,8 @@ class Usuario extends Eloquent implements UserInterface, RemindableInterface {
 	 */
 	protected $table = 'usuario';
 	protected $primaryKey = 'usuario';
+	use SoftDeletingTrait;
+    protected $dates = array('deleted_at');
 
 	/**
 	 * The attributes excluded from the model's JSON form.
@@ -23,7 +25,7 @@ class Usuario extends Eloquent implements UserInterface, RemindableInterface {
 	 * @var array
 	 */
 	protected $hidden = array('remember_token');
-	protected $fillable = array('usuario', 'email', 'passhash','super');
+	protected $fillable = array('usuario', 'email', 'passhash','admin');
 
 	public function persona()
     {

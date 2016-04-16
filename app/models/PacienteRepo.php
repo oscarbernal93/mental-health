@@ -29,4 +29,9 @@ class PacienteRepo {
 		return Paciente::all();
 	}
 
+	//crea un collection con todos las solicitudes pendientes de aprobacion
+	public function listarSolicitudes($id_eps)
+	{
+		return Paciente::query()->where('aprobado','=',0)->where('id_eps','=',$id_eps)->get();
+	}
 }

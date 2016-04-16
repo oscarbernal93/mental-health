@@ -18,10 +18,13 @@ Route::get('login', 'UsuarioController@formularioLogin');
 Route::post('login', 'UsuarioController@iniciarSesion');
 Route::get('registro', 'UsuarioController@tipoRegistro');
 Route::get('formulario', 'UsuarioController@formularioRegistrarse');
+Route::get('solicitudes', 'UsuarioController@listarSolicitudes');
 //rutas de paciente
 Route::post('paciente/guardar', 'PacienteController@guardarRegistro');
 //rutas de medico
 Route::post('medico/guardar', 'MedicoController@guardarRegistro');
+Route::post('solicitudes/medico/aprobar/{id}', 'MedicoController@aprobarSolicitud');
+Route::post('solicitudes/medico/eliminar/{id}', 'MedicoController@borrarSolicitud');
 //rutas de Eps
 Route::post('eps/guardar', 'EpsController@guardarRegistro');
 

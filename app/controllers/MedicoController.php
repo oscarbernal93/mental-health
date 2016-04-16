@@ -89,4 +89,18 @@ class MedicoController extends BaseController {
 		}
 		die("okokok");
 	}
+	//funcion que permite aprobar una solicitud
+	public function aprobarSolicitud()
+	{
+		$id = Input::get('id');
+		$this->repositorio_medicos->aprobarMedico($id);
+		return Redirect::to('/')->with('message','Medico aprobado correctamente');
+	}
+	//funcion que permite borrar una solicitud
+	public function borrarSolicitud()
+	{
+		$id = Input::get('id');
+		$this->repositorio_medicos->borrarMedico($id);
+		return Redirect::to('/')->with('message','Medico eliminado correctamente');
+	}
 }
