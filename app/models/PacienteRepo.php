@@ -14,7 +14,7 @@ class PacienteRepo {
 	//busca un Paciente por su llave primaria
 	public function obtenerPaciente($id)
 	{
-		return Paciente::find($id);
+		return Eps::query()->where('id','=',$id)->where('aprobado','=',1)->first();
 	}
 
 	//busca un Paciente por su llave primaria y lo borra

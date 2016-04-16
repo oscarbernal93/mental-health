@@ -55,11 +55,15 @@
 		{{ Form::textarea('info_academica',Input::old('info_academica')) }}
 	</div>
 	<div>
+		{{ Form::label('especialidad', 'Especialidad') }}
+		{{ Form::text('especialidad',Input::old('especialidad')) }}
+	</div>
+	<div>
 		{{ Form::label('foto_de_perfil', 'Foto de Perfil') }}
 		{{ Form::file('foto_de_perfil',array('style'=>"display: inline-block;")) }}
 	</div>
 	<div>
-		{{ Form::hidden('general',1) }}
+		{{ Form::hidden('general',0) }}
 		{{ Form::submit('Registrarse!') }}
 	</div>
 	{{ Form::close() }}

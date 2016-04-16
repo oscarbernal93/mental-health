@@ -21,13 +21,13 @@ class CreateMedicoTable extends Migration {
 		        $table->boolean('general');
 		        $table->string('info_academica');
 		        $table->string('especialidad')->nullable();
-		        $table->string('lunes');
-		        $table->string('martes');
-		        $table->string('miercoles');
-		        $table->string('jueves');
-		        $table->string('viernes');
-		        $table->string('sabado');
-		        $table->string('domingo');
+		        $table->string('lunes')->nullable();
+		        $table->string('martes')->nullable();
+		        $table->string('miercoles')->nullable();
+		        $table->string('jueves')->nullable();
+		        $table->string('viernes')->nullable();
+		        $table->string('sabado')->nullable();
+		        $table->string('domingo')->nullable();
 		        $table->timestamps();
 		        $table->softDeletes();
 

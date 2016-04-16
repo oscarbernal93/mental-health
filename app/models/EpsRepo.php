@@ -3,9 +3,15 @@
 class EpsRepo {
 
 	//crea un nuevo usuario con la informacion recibida
-	public function crearEps()
+	public function crearEps($nombre,$telefono,$direccion,$correo_institucional,$informacion_de_sedes,$url_foto)
 	{
 		$entidad = new Eps;
+		$entidad->nombre = $nombre;
+		$entidad->telefono = $telefono;
+		$entidad->direccion = $direccion;
+		$entidad->email = $correo_institucional;
+		$entidad->info_sedes = $informacion_de_sedes;
+		$entidad->url_logo = $url_foto;
 		$entidad->aprobado = false;
 		$entidad->save();
 		return $entidad;

@@ -68,7 +68,8 @@ class UsuarioController extends BaseController {
 	public function tipoRegistro()
 	{
 		$tipos = array('paciente' => 'Paciente',
-					   'medico' => 'Medico',
+					   'medico' => 'Medico General',
+					   'especialista' => 'Medico Especialista',
 					   'eps'=>'Eps');
 		return View::make('registro')->with('tipos', $tipos);
 	}
@@ -101,7 +102,17 @@ class UsuarioController extends BaseController {
 		}
 		elseif ("medico"==$tipo)
 		{
-			return View::make('medico.registro');
+			return View::make('medico.registro')->with('tipos_doc', $tipos_doc)
+												  ->with('tipos_estciv', $tipos_estciv)
+												  ->with('array_eps', $array_eps)
+												  ->with('tipos_rh', $tipos_rh);
+		}
+		elseif ("especialista"==$tipo)
+		{
+			return View::make('medico.registro_esp')->with('tipos_doc', $tipos_doc)
+												  ->with('tipos_estciv', $tipos_estciv)
+												  ->with('array_eps', $array_eps)
+												  ->with('tipos_rh', $tipos_rh);
 		}
 		elseif ("eps"==$tipo)
 		{

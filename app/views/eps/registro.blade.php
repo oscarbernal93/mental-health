@@ -4,10 +4,42 @@
 <div>
 	<h1>Registro de Eps en Mental Health</h1>
 	
-	{{ Form::open(array('action' => 'UsuarioController@iniciarSesion')) }}
+	{{ Form::open(array('action' => 'EpsController@guardarRegistro','files'=> true)) }}
 	<div>
-		{{ Form::label('username', 'Usuario') }}
-		{{ Form::text('username') }}
+		{{ Form::label('usuario', 'Usuario') }}
+		{{ Form::text('usuario',Input::old('usuario')) }}
+	</div>
+	<div>
+		{{ Form::label('password', 'Contraseña') }}
+		{{ Form::password('password') }}
+	</div>
+	<div>
+		{{ Form::label('email', 'Correo Electronico') }}
+		{{ Form::text('email',Input::old('email')) }}
+	</div>
+	<div>
+		{{ Form::label('nombre', 'Nombre Eps') }}
+		{{ Form::text('nombre',Input::old('nombre')) }}
+	</div>
+	<div>
+		{{ Form::label('telefono', 'Telefono') }}
+		{{ Form::text('telefono',Input::old('telefono')) }}
+	</div>
+	<div>
+		{{ Form::label('direccion', 'Direccion') }}
+		{{ Form::text('direccion',Input::old('direccion')) }}
+	</div>
+	<div>
+		{{ Form::label('correo_institucional', 'Correo Institucional') }}
+		{{ Form::text('correo_institucional',Input::old('correo_institucional')) }}
+	</div>
+	<div>
+		{{ Form::label('informacion_de_sedes', 'Informacion de Sedes') }}
+		{{ Form::textarea('informacion_de_sedes',Input::old('informacion_de_sedes')) }}
+	</div>
+	<div>
+		{{ Form::label('logo', 'Logo de la Eps') }}
+		{{ Form::file('logo',array('style'=>"display: inline-block;")) }}
 	</div>
 	<div>
 		{{ Form::submit('Registrarse!') }}

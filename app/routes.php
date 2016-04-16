@@ -20,6 +20,10 @@ Route::get('registro', 'UsuarioController@tipoRegistro');
 Route::get('formulario', 'UsuarioController@formularioRegistrarse');
 //rutas de paciente
 Route::post('paciente/guardar', 'PacienteController@guardarRegistro');
+//rutas de medico
+Route::post('medico/guardar', 'MedicoController@guardarRegistro');
+//rutas de Eps
+Route::post('eps/guardar', 'EpsController@guardarRegistro');
 
 Route::get('/', function()
 {
