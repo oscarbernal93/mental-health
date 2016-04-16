@@ -11,21 +11,15 @@
 |
 */
 
-Route::get('new/{usuario}/{email}/{password}', function($usuario, $email, $password)
-{
-	Usuario::create(array(
-        'usuario'     => $usuario,
-        'email'    => $email,
-        'passhash' => Hash::make($password),
-        'super' => false,
-    ));
-    return Redirect::to('/')->with('message', "Usuario: $usuario, creado satisfactoriamente");
-});
-
+//rutas de usuario
 Route::get('usuarios', 'UsuarioController@mostrarUsuarios');
-Route::get('persona/{usuario}', 'UsuarioController@detallesUsuario');
+Route::get('usuario/{usuario}', 'UsuarioController@detallesUsuario');
 Route::get('login', 'UsuarioController@formularioLogin');
 Route::post('login', 'UsuarioController@iniciarSesion');
+Route::get('registro', 'UsuarioController@tipoRegistro');
+Route::get('formulario', 'UsuarioController@formularioRegistrarse');
+//rutas de paciente
+Route::post('paciente/guardar', 'PacienteController@guardarRegistro');
 
 Route::get('/', function()
 {

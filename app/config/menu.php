@@ -2,10 +2,10 @@
 
 return 
 	array(
-		array('url' => asset('login'),
+		array('url' => action('UsuarioController@formularioLogin'),
 			  'nombre' => 'Iniciar Sesion'),
-		array('url' => asset('usuarios'),
-			  'nombre' => 'Ver Usuarios'),
+		array('url' => action('UsuarioController@tipoRegistro'),
+			  'nombre' => 'Registrarse'),
 	);
 
 

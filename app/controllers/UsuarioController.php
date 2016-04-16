@@ -19,8 +19,8 @@ class UsuarioController extends BaseController {
 	//muestra los detalles de un usuario especifico
 	public function detallesUsuario($usuario)
 	{
-		$persona = $this->repositorio_usuarios->obtenerUsuario($usuario);
-    	return View::make('persona')->with('persona', $persona);
+		$sujeto = $this->repositorio_usuarios->obtenerUsuario($usuario);
+    	return View::make('usuario')->with('sujeto', $sujeto);
 	}
 
 	//carga el formulario de login y lo entrega a la vista
@@ -51,5 +51,42 @@ class UsuarioController extends BaseController {
 			return Redirect::to('/')->with('message','El usuario no existe');
 		}
 		return Redirect::to('/')->with('message','Algo salio mal');
+	}
+
+	//carga permite seleccionar el tipo de formulario a mostrar
+	public function tipoRegistro()
+	{
+		$tipos = array('paciente' => 'Paciente',
+					   'medico' => 'Medico',
+					   'eps'=>'Eps');
+		return View::make('registro')->with('tipos', $tipos);
+	}
+
+	//carga el formulario segun el tipo de registro que va a hacerse
+	public function formularioRegistrarse()
+	{
+		$tipos_doc = array('cc' => 'Cedula de Ciudadania',
+					   	   'ti' => 'Tarjeta de Identidad',
+					   	   'ce' => 'Cedula de Extranjeria');
+		$tipos_rh = array('op' => 'O+','on' => 'O-',
+					   	  'ap' => 'A+','an' => 'A-',
+					   	  'bp' => 'B+','bn' => 'B-',
+					   	  'abp' => 'AB+','abn' => 'AB-');
+		$tipos_estciv = array('s' => 'Soltero',
+					   	      'c' => 'Casado',
+					   	      'e' => 'Es Complidado',
+					   	      'n' => 'Lechus no me Quiere');
+		$tipo = Input::get('tipo');
+		if("paciente"==$tipo){
+			return View::make('paciente.registro')->with('tipos_doc', $tipos_doc)
+												  ->with('tipos_estciv', $tipos_estciv)
+												  ->with('tipos_rh', $tipos_rh);
+		}elseif ("medico"==$tipo) {
+			return View::make('medico.registro');
+		}elseif ("eps"==$tipo) {
+			return View::make('eps.registro');
+		}else{
+			return Redirect::back()->with('message','Seleccione un tipo Valido');
+		}
 	}
 }
