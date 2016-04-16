@@ -79,6 +79,28 @@ class PacienteController extends BaseController {
 			//finalmente se redirecciona
 			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprovada se le notificará al correo electronico proporcionado');
 		}
-		die("okokok");
+	}
+
+	//funcion que permite aprobar una solicitud
+	public function aprobarSolicitud()
+	{
+		$id = Input::get('id');
+		$destinatario = Paciente::find($id)->persona->usuario->email;
+		$this->repositorio_pacientes->aprobarPaciente($id);
+		//se manda el mensaje
+		mail($destinatario, 'Correo de Notificacion', "Su solicitud para registrarse como Paciente en nuestra plataforma ha sido aprobada");
+		//se redirecciona
+		return Redirect::to('/')->with('message','Paciente aprobado correctamente');
+	}
+	//funcion que permite borrar una solicitud
+	public function borrarSolicitud()
+	{
+		$id = Input::get('id');
+		$destinatario = Paciente::find($id)->persona->usuario->email;
+		$this->repositorio_pacientes->borrarPaciente($id);
+		//se manda el mensaje
+		mail($destinatario, 'Correo de Notificacion', "Su solicitud para registrarse como Paciente en nuestra plataforma ha sido rechazada");
+		//se redirecciona
+		return Redirect::to('/')->with('message','Paciente eliminado correctamente');
 	}
 }

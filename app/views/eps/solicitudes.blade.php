@@ -15,7 +15,17 @@
 		@foreach($solicitudes as $eps)
 			<tr>
 			    <td>{{$eps->nombre}}</td>
-			    <td><button>Aprobar!</button><button>Eliminar!</button></td>
+			    <td>
+				    {{ Form::open(array('action' => 'EpsController@aprobarSolicitud','style'=>'display:inline-block;')) }}
+				    {{ Form::hidden('id',$eps->id) }}
+					{{ Form::submit('Aprobar!') }}
+					{{Form::close()}}
+				<!---->
+				    {{ Form::open(array('action' => 'EpsController@borrarSolicitud','class'=>'eliminar','style'=>'display:inline-block;')) }}
+				    {{ Form::hidden('id',$eps->id) }}
+					{{ Form::submit('Eliminar!') }}
+					{{Form::close()}}
+			    </td>
 			</tr>
 		@endforeach
 	</tbody>
@@ -27,6 +37,11 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 	    $('#tabla1').DataTable();
+	});
+</script>
+<script type="text/javascript">
+	$('.eliminar').submit(function (evt) {
+		return confirm("Se eliminará la solicitud de registro");
 	});
 </script>
 @endsection

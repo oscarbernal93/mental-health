@@ -17,7 +17,17 @@
 			<tr>
 			    <td>{{$paciente->persona->documento}}</td>
 			    <td>{{$paciente->persona->nombre}}</td>
-			    <td><button>Aprobar!</button><button>Eliminar!</button></td>
+			    <td>
+				    {{ Form::open(array('action' => 'PacienteController@aprobarSolicitud','style'=>'display:inline-block;')) }}
+				    {{ Form::hidden('id',$paciente->id) }}
+					{{ Form::submit('Aprobar!') }}
+					{{Form::close()}}
+				<!---->
+				    {{ Form::open(array('action' => 'PacienteController@borrarSolicitud','class'=>'eliminar','style'=>'display:inline-block;')) }}
+				    {{ Form::hidden('id',$paciente->id) }}
+					{{ Form::submit('Eliminar!') }}
+					{{Form::close()}}
+				</td>
 			</tr>
 		@endforeach
 	</tbody>
@@ -39,15 +49,15 @@
 				<td>{{$medico->persona->documento}}</td>
 			    <td>{{$medico->persona->nombre}}</td>
 			    <td>
-			    {{ Form::open(array('action' => 'MedicoController@aprobarSolicitud','style'=>'display:inline-block;')) }}
-			    {{ Form::hidden('id',$medico->id) }}
-				{{ Form::submit('Aprobar!') }}
-				{{Form::close()}}
+				    {{ Form::open(array('action' => 'MedicoController@aprobarSolicitud','style'=>'display:inline-block;')) }}
+				    {{ Form::hidden('id',$medico->id) }}
+					{{ Form::submit('Aprobar!') }}
+					{{Form::close()}}
 			    <!---->
-			    {{ Form::open(array('action' => 'MedicoController@borrarSolicitud','class'=>'eliminar','style'=>'display:inline-block;')) }}
-			    {{ Form::hidden('id',$medico->id) }}
-				{{ Form::submit('Eliminar!') }}
-				{{Form::close()}}
+				    {{ Form::open(array('action' => 'MedicoController@borrarSolicitud','class'=>'eliminar','style'=>'display:inline-block;')) }}
+				    {{ Form::hidden('id',$medico->id) }}
+					{{ Form::submit('Eliminar!') }}
+					{{Form::close()}}
 			    </td>
 			</tr>
 		@endforeach
@@ -64,7 +74,7 @@
 </script>
 <script type="text/javascript">
 	$('.eliminar').submit(function (evt) {
-		return confirm("Se eliminará el medico");
+		return confirm("Se eliminará la solicitud de registro");
 	});
 </script>
 @endsection

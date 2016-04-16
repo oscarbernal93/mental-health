@@ -29,6 +29,15 @@ class EpsRepo {
 		return Eps::find($id)->delete();
 	}
 
+	//busca un Eps por su llave primaria y lo aprueba
+	public function aprobarEps($id)
+	{
+		$entidad = Eps::find($id);
+		$entidad->aprobado = true;
+		$entidad->save();
+		return $entidad;
+	}
+
 	//crea un collection con todos las Eps
 	public function listarEps()
 	{

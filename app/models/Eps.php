@@ -18,7 +18,7 @@ class Eps extends Eloquent{
 	 * @var array
 	 */
 
-	public function usuarios()
+	public function usuario()
 	{
 		return $this->hasOne('Usuario', 'id_eps', 'id');
 	}

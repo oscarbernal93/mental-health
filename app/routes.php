@@ -21,21 +21,19 @@ Route::get('formulario', 'UsuarioController@formularioRegistrarse');
 Route::get('solicitudes', 'UsuarioController@listarSolicitudes');
 //rutas de paciente
 Route::post('paciente/guardar', 'PacienteController@guardarRegistro');
+Route::post('solicitudes/paciente/aprobar/', 'PacienteController@aprobarSolicitud');
+Route::post('solicitudes/paciente/eliminar/', 'PacienteController@borrarSolicitud');
 //rutas de medico
 Route::post('medico/guardar', 'MedicoController@guardarRegistro');
-Route::post('solicitudes/medico/aprobar/{id}', 'MedicoController@aprobarSolicitud');
-Route::post('solicitudes/medico/eliminar/{id}', 'MedicoController@borrarSolicitud');
+Route::post('solicitudes/medico/aprobar/', 'MedicoController@aprobarSolicitud');
+Route::post('solicitudes/medico/eliminar/', 'MedicoController@borrarSolicitud');
 //rutas de Eps
 Route::post('eps/guardar', 'EpsController@guardarRegistro');
+Route::post('solicitudes/medico/aprobar/', 'EpsController@aprobarSolicitud');
+Route::post('solicitudes/medico/eliminar/', 'EpsController@borrarSolicitud');
 
 Route::get('/', function()
 {
 	return View::make('hello');
 });
 
-Route::get('/mail', function()
-{
-	$conf = mail('oscarbernal93@gmail.com', 'Correo de Prueba', "Todo va bien, las cosas marchan en orden, de acuerdo a lo planeado");
-	var_dump($conf);
-	die("ok");
-});

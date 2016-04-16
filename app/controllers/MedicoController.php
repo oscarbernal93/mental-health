@@ -85,22 +85,29 @@ class MedicoController extends BaseController {
 			$entidad_persona->save();
 			$entidad_medico->save();
 			//finalmente se redirecciona
-			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprovada se le notificará al correo electronico proporcionado');
+			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprobada se le notificará al correo electronico proporcionado');
 		}
-		die("okokok");
 	}
 	//funcion que permite aprobar una solicitud
 	public function aprobarSolicitud()
 	{
 		$id = Input::get('id');
+		$destinatario = Medico::find($id)->persona->usuario->email;
 		$this->repositorio_medicos->aprobarMedico($id);
+		//se manda el mensaje
+		mail($destinatario, 'Correo de Notificacion', "Su solicitud para registrarse como Medico en nuestra plataforma ha sido aprobada");
+		//se redirecciona
 		return Redirect::to('/')->with('message','Medico aprobado correctamente');
 	}
 	//funcion que permite borrar una solicitud
 	public function borrarSolicitud()
 	{
 		$id = Input::get('id');
+		$destinatario = Medico::find($id)->persona->usuario->email;
 		$this->repositorio_medicos->borrarMedico($id);
+		//se manda el mensaje
+		mail($destinatario, 'Correo de Notificacion', "Su solicitud para registrarse como Medico en nuestra plataforma ha sido rechazada");
+		//se redirecciona
 		return Redirect::to('/')->with('message','Medico eliminado correctamente');
 	}
 }

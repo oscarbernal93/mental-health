@@ -66,6 +66,27 @@ class EpsController extends BaseController {
 			//finalmente se redirecciona
 			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprovada se le notificará al correo electronico proporcionado');
 		}
-		die("okokok");
+	}
+	//funcion que permite aprobar una solicitud
+	public function aprobarSolicitud()
+	{
+		$id = Input::get('id');
+		$destinatario = Eps::find($id)->usuario->email;
+		$this->repositorio_eps->aprobarEps($id);
+		//se manda el mensaje
+		mail($destinatario, 'Correo de Notificacion', "Su solicitud para registrarse como Eps en nuestra plataforma ha sido aprobada");
+		//se redirecciona
+		return Redirect::to('/')->with('message','Eps aprobado correctamente');
+	}
+	//funcion que permite borrar una solicitud
+	public function borrarSolicitud()
+	{
+		$id = Input::get('id');
+		$destinatario = Eps::find($id)->usuario->email;
+		$this->repositorio_eps->borrarEps($id);
+		//se manda el mensaje
+		mail($destinatario, 'Correo de Notificacion', "Su solicitud para registrarse como Eps en nuestra plataforma ha sido rechazada");
+		//se redirecciona
+		return Redirect::to('/')->with('message','Eps eliminado correctamente');
 	}
 }

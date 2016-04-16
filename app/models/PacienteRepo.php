@@ -23,6 +23,15 @@ class PacienteRepo {
 		return Paciente::find($id)->delete();
 	}
 
+	//busca un Paciente por su llave primaria y lo aprueba
+	public function aprobarPaciente($id)
+	{
+		$entidad = Paciente::find($id);
+		$entidad->aprobado = true;
+		$entidad->save();
+		return $entidad;
+	}
+
 	//crea un collection con todos los Pacientes
 	public function listarPacientes()
 	{
