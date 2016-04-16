@@ -36,18 +36,27 @@ class UsuarioController extends BaseController {
 		$password = Input::get('password');
 
 		$persona = $this->repositorio_usuarios->obtenerUsuario($usuario);
-		if(!is_null($persona)){
-			if (Hash::check($password, $persona->passhash)) {
+		if(!is_null($persona))
+		{
+			if (Hash::check($password, $persona->passhash))
+			{
 				Auth::login($persona);
 				return Redirect::to('/')->with('message','Todo bien, todo bonito');
-			}else{
-				if (Hash::needsRehash($persona->passhash)) {
+			}
+			else
+			{
+				if (Hash::needsRehash($persona->passhash))
+				{
 					return Redirect::to('/')->with('message','La contraseña esta mala, comuniquese con el administrador del sistema');
-				}else{
+				}
+				else
+				{
 					return Redirect::to('/')->with('message','La contraseña es incorrecta');
 				}
 			}
-		}else{
+		}
+		else
+		{
 			return Redirect::to('/')->with('message','El usuario no existe');
 		}
 		return Redirect::to('/')->with('message','Algo salio mal');
@@ -72,20 +81,27 @@ class UsuarioController extends BaseController {
 					   	  'ap' => 'A+','an' => 'A-',
 					   	  'bp' => 'B+','bn' => 'B-',
 					   	  'abp' => 'AB+','abn' => 'AB-');
-		$tipos_estciv = array('s' => 'Soltero',
-					   	      'c' => 'Casado',
-					   	      'e' => 'Es Complidado',
-					   	      'n' => 'Lechus no me Quiere');
+		$tipos_estciv = array('soltero' => 'Soltero',
+					   	      'casado' => 'Casado',
+					   	      'complicado' => 'Es Complidado',
+					   	      'triste' => 'Lechus no me Quiere');
 		$tipo = Input::get('tipo');
-		if("paciente"==$tipo){
+		if("paciente"==$tipo)
+		{
 			return View::make('paciente.registro')->with('tipos_doc', $tipos_doc)
 												  ->with('tipos_estciv', $tipos_estciv)
 												  ->with('tipos_rh', $tipos_rh);
-		}elseif ("medico"==$tipo) {
+		}
+		elseif ("medico"==$tipo)
+		{
 			return View::make('medico.registro');
-		}elseif ("eps"==$tipo) {
+		}
+		elseif ("eps"==$tipo)
+		{
 			return View::make('eps.registro');
-		}else{
+		}
+		else
+		{
 			return Redirect::back()->with('message','Seleccione un tipo Valido');
 		}
 	}

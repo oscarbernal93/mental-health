@@ -7,56 +7,60 @@
 	{{ Form::open(array('action' => 'PacienteController@guardarRegistro','files'=> true)) }}
 	<div>
 		{{ Form::label('usuario', 'Usuario') }}
-		{{ Form::text('usuario') }}
+		{{ Form::text('usuario',Input::old('usuario')) }}
 	</div>
 	<div>
 		{{ Form::label('password', 'Contraseña') }}
-		{{ Form::text('password') }}
+		{{ Form::password('password') }}
 	</div>
 	<div>
 		{{ Form::label('email', 'Correo Electronico') }}
-		{{ Form::text('email') }}
+		{{ Form::text('email',Input::old('email')) }}
 	</div>
 	<div>
 		{{ Form::label('nombre', 'Nombre Completo') }}
-		{{ Form::text('nombre') }}
+		{{ Form::text('nombre',Input::old('nombre')) }}
 	</div>
 	<div>
-		{{ Form::label('fecha-de-nacimiento', 'Fecha de Nacimiento') }}
-		{{ Form::text('fecha-de-nacimiento',null,array('class'=>'datepicker')) }}
+		{{ Form::label('fecha_de_nacimiento', 'Fecha de Nacimiento') }}
+		{{ Form::text('fecha_de_nacimiento',Input::old('fecha_de_nacimiento'),array('class'=>'datepicker')) }}
 	</div>
 	<div>
-		{{ Form::label('docuemento', 'Documento') }}
-		{{ Form::select('tipo-de-documento',$tipos_doc) }} {{ Form::text('documento') }}
+		{{ Form::label('documento', 'Documento') }}
+		{{ Form::select('tipo_de_documento',$tipos_doc,Input::old('tipo_documento')) }} 
+		{{ Form::text('documento',Input::old('documento')) }}
 	</div>
 	<div>
 		{{ Form::label('rh', 'RH') }}
-		{{ Form::select('rh',$tipos_rh) }}
+		{{ Form::select('rh',$tipos_rh,Input::old('rh')) }}
 	</div>
 	<div>
-		{{ Form::label('estado-civil', 'Estado Civil') }}
-		{{ Form::select('estado-civil',$tipos_estciv) }}
+		{{ Form::label('estado_civil', 'Estado Civil') }}
+		{{ Form::select('estado_civil',$tipos_estciv,Input::old('estado_civil')) }}
 	</div>
 	<div>
 		{{ Form::label('telefono', 'Telefono') }}
-		{{ Form::text('telefono') }}
+		{{ Form::text('telefono',Input::old('telefono')) }}
 	</div>
 	<div>
-		{{ Form::label('imagen', 'Foto de Perfil') }}
-		{{ Form::file('imagen',array('style'=>"display: inline-block;")) }}
+		{{ Form::label('foto_de_perfil', 'Foto de Perfil') }}
+		{{ Form::file('foto_de_perfil',array('style'=>"display: inline-block;")) }}
 	</div>
 	<div>
 		{{ Form::submit('Registrarse!') }}
 	</div>
 	{{ Form::close() }}
-<div>
-	<h3>Errores en el formulario:</h3>
-	<ul>
-		@foreach($errors->all() as $error)	
-			<li>{{$error}}</li>
-		@endforeach
-	</ul>
-</div>
+
+	@if (0 < $errors->count())
+		<div>
+			<h3>Errores en el formulario:</h3>
+			<ul>
+				@foreach($errors->all() as $error)	
+					<li>{{$error}}</li>
+				@endforeach
+			</ul>
+		</div>
+	@endif
 </div>
 @endsection
 
