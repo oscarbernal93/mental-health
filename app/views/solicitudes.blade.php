@@ -11,7 +11,7 @@
 		    <th>Nombre</th>
 		    <th>Opcion</th>
 		</tr>
-	</thead>
+	</thead> 
 	<tbody>
 		@foreach($pacientes as $paciente)
 			<tr>
