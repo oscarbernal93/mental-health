@@ -18,16 +18,16 @@ class Persona extends Eloquent{
 
 	public function paciente()
 	{
-		return $this->BelongsTo('Paciente');
+		return $this->BelongsTo('Paciente','id_paciente','id');
 	}
 
 	public function medico()
 	{
-		return $this->BelongsTo('Medico');
+		return $this->BelongsTo('Medico','id_medico','id');
 	}
 
 	public function usuario()
     {
-        return $this->BelongsTo('Usuario');
+        return $this->hasOne('Usuario');
     }
 }

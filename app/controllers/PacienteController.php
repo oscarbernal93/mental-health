@@ -4,11 +4,15 @@ class PacienteController extends BaseController {
 
 	private $repositorio_usuarios;
 	private $repositorio_pacientes;
+	private $repositorio_personas;
+	private $repositorio_eps;
 
 	function __construct()
 	{
 		$this->repositorio_usuarios = new UsuarioRepo;
 		$this->repositorio_pacientes = new PacienteRepo;
+		$this->repositorio_personas = new PersonaRepo;
+		$this->repositorio_eps = new EpsRepo;
 	}
 
 	//recibe, valida y guarda la informacion del registro
@@ -18,6 +22,7 @@ class PacienteController extends BaseController {
 		$validator = Validator::make(
 		    Input::all(),
 		    array(
+		        'eps' => 'required|exists:eps,id',
 		        'usuario' => 'required|unique:usuario',
 		        'password' => 'required|min:8',
 		        'email' => 'required|email|unique:usuario',
@@ -39,6 +44,7 @@ class PacienteController extends BaseController {
 		else
 		{
 			//si pasa la validacion obtiene toda la informacion
+			$eps = Input::get('eps');
 			$usuario = Input::get('usuario');
 			$password = Input::get('password');
 			$email = Input::get('email');
@@ -54,9 +60,25 @@ class PacienteController extends BaseController {
 			$destinationPath = 'uploads/';
 			$filename = time().$file->getClientOriginalName();
 			$file->move($destinationPath, $filename);
-			$url = asset("uploads/".$filename);
-			var_dump("<a href='".$url."'>$url</a>");
+			$url_foto = asset("uploads/".$filename);
+			//ahora se crean las entidades correspondientes
+			//un paciente, una persona y un usuario
+			$entidad_paciente = $this->repositorio_pacientes->crearPaciente();
+			$entidad_persona = $this->repositorio_personas->crearPersona($nombre,$fecha_de_nacimiento,$tipo_de_documento,$documento,$rh,$estado_civil,$telefono,$url_foto);
+			$entidad_usuario = $this->repositorio_usuarios->crearUsuario($usuario,$password,$email);
+			//se busca la entidad de la eps
+			$entidad_eps = $this->repositorio_eps->obtenerEps($eps);
+			//ahora se establecen las relaciones entre las entidades
+			$entidad_usuario->persona()->associate($entidad_persona);
+			$entidad_persona->paciente()->associate($entidad_paciente);
+			$entidad_paciente->eps()->associate($entidad_eps);
+			//se guardan los cambios
+			$entidad_usuario->save();
+			$entidad_persona->save();
+			$entidad_paciente->save();
+			//finalmente se redirecciona
+			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprovada se le notificará al correo electronico proporcionado');
 		}
-		die();
+		die("okokok");
 	}
 }

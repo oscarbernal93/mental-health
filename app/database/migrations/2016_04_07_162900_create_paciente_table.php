@@ -15,8 +15,8 @@ class CreatePacienteTable extends Migration {
 		Schema::create('paciente', function($table)
 		    {
 		        $table->integer('id',true);
-		        $table->integer('id_perfil');
-		        $table->integer('id_eps');
+		        $table->integer('id_perfil')->nullable();
+		        $table->integer('id_eps')->nullable();
 		        $table->boolean('aprobado');
 		        $table->timestamps();
 		        $table->softDeletes();

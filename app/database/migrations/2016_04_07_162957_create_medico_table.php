@@ -15,7 +15,7 @@ class CreateMedicoTable extends Migration {
 		Schema::create('medico', function($table)
 		    {
 		        $table->integer('id',true);
-		        $table->integer('id_eps');
+		        $table->integer('id_eps')->nullable();
 		        $table->boolean('aprobado');
 		        $table->string('email');
 		        $table->boolean('general');

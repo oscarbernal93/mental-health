@@ -6,6 +6,10 @@
 	
 	{{ Form::open(array('action' => 'PacienteController@guardarRegistro','files'=> true)) }}
 	<div>
+		{{ Form::label('eps', 'Eps') }}
+		{{ Form::select('eps',$array_eps,Input::old('eps')) }}
+	</div>
+	<div>
 		{{ Form::label('usuario', 'Usuario') }}
 		{{ Form::text('usuario',Input::old('usuario')) }}
 	</div>

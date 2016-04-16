@@ -3,11 +3,12 @@
 class PacienteRepo {
 
 	//crea un nuevo usuario con la informacion recibida
-	public function crearPaciente($atributo)
+	public function crearPaciente()
 	{
 		$entidad = new Paciente;
-		$entidad->atributo = $atributo;
+		$entidad->aprobado = false;
 		$entidad->save();
+		return $entidad;
 	}
 
 	//busca un Paciente por su llave primaria

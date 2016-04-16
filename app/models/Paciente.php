@@ -18,16 +18,16 @@ class Paciente extends Eloquent{
 
 	public function perfil()
 	{
-		return $this->BelongsTo('Perfil');
+		return $this->BelongsTo('Perfil','id_perfil', 'id');
 	}
 
 	public function eps()
 	{
-		return $this->BelongsTo('Eps');
+		return $this->BelongsTo('Eps','id_eps', 'id');
 	}
 
 	public function persona()
     {
-        return $this->hasOne('Persona', 'id_persona', 'id');
+        return $this->hasOne('Persona');
     }
 }

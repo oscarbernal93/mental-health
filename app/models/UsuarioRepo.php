@@ -3,11 +3,15 @@
 class UsuarioRepo {
 
 	//crea un nuevo usuario con la informacion recibida
-	public function crearUsuario($atributo)
+	public function crearUsuario($usuario,$password,$email)
 	{
 		$entidad = new Usuario;
-		$entidad->atributo = $atributo;
+		$entidad->usuario = $usuario;
+		$entidad->passhash = Hash::make($password);
+		$entidad->email = $email;
+		$entidad->admin = false;
 		$entidad->save();
+		return $entidad;
 	}
 
 	//busca un usuario por su llave primaria

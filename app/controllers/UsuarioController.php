@@ -3,10 +3,12 @@
 class UsuarioController extends BaseController {
 
 	private $repositorio_usuarios;
+	private $repositorio_eps;
 
 	function __construct()
 	{
 		$this->repositorio_usuarios = new UsuarioRepo;
+		$this->repositorio_eps = new EpsRepo;
 	}
 
 	//muestra una lista de todos los usuarios existentes
@@ -74,6 +76,10 @@ class UsuarioController extends BaseController {
 	//carga el formulario segun el tipo de registro que va a hacerse
 	public function formularioRegistrarse()
 	{
+		$array_eps = array();
+		foreach ($this->repositorio_eps->listarEps() as $eps) {
+			$array_eps[$eps->id] = $eps->nombre;
+		}
 		$tipos_doc = array('cc' => 'Cedula de Ciudadania',
 					   	   'ti' => 'Tarjeta de Identidad',
 					   	   'ce' => 'Cedula de Extranjeria');
@@ -90,6 +96,7 @@ class UsuarioController extends BaseController {
 		{
 			return View::make('paciente.registro')->with('tipos_doc', $tipos_doc)
 												  ->with('tipos_estciv', $tipos_estciv)
+												  ->with('array_eps', $array_eps)
 												  ->with('tipos_rh', $tipos_rh);
 		}
 		elseif ("medico"==$tipo)
