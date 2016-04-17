@@ -32,8 +32,5 @@ Route::post('eps/guardar', 'EpsController@guardarRegistro');
 Route::post('solicitudes/medico/aprobar/', 'EpsController@aprobarSolicitud');
 Route::post('solicitudes/medico/eliminar/', 'EpsController@borrarSolicitud');
 
-Route::get('/', function()
-{
-	return View::make('hello');
-});
+Route::get('/', 'InicioController@paginaInicio');
 
