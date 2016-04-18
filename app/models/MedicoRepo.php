@@ -13,7 +13,7 @@ class MedicoRepo {
 			$entidad->especialidad = $especialidad;
 		}
 		$entidad->save();
-		return $entidad;
+		return Medico::find($entidad->id);
 	}
 
 	//busca un Medico por su llave primaria

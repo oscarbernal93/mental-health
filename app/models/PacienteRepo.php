@@ -8,7 +8,7 @@ class PacienteRepo {
 		$entidad = new Paciente;
 		$entidad->aprobado = false;
 		$entidad->save();
-		return $entidad;
+		return Paciente::find($entidad->id);
 	}
 
 	//busca un Paciente por su llave primaria

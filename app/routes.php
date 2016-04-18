@@ -23,7 +23,7 @@ Route::post('recuperar/guardar', 'UsuarioController@guardarContrasena');
 Route::get('logout', 'UsuarioController@cerrarSesion');
 Route::get('registro', 'UsuarioController@tipoRegistro');
 Route::get('formulario', 'UsuarioController@formularioRegistrarse');
-Route::get('solicitudes', 'UsuarioController@listarSolicitudes');
+Route::get('solicitudes/{algo?}', 'UsuarioController@listarSolicitudes');
 Route::get('adicionar-rol', 'UsuarioController@formularioOtroRol');
 //rutas de paciente
 Route::post('paciente/guardar', 'PacienteController@guardarRegistro');

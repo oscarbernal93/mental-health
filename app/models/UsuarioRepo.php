@@ -11,7 +11,7 @@ class UsuarioRepo {
 		$entidad->email = $email;
 		$entidad->admin = false;
 		$entidad->save();
-		return $entidad;
+		return Usuario::find($usuario);
 	}
 
 	//busca un usuario por su llave primaria

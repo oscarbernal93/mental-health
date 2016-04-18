@@ -15,7 +15,7 @@ class PersonaRepo {
 		$entidad->telefono=$telefono;
 		$entidad->url_foto=$url_foto;
 		$entidad->save();
-		return $entidad;
+		return Persona::find($entidad->id);
 	}
 
 	//busca un Persona por su llave primaria
