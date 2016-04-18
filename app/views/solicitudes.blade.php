@@ -2,7 +2,7 @@
 
 @section('content')
 <div>
-	<h1>Solicitudes de Pecientes</h1>
+	<h1>Solicitudes de Pacientes</h1>
 	<div>
 	<table>
 	<thead>

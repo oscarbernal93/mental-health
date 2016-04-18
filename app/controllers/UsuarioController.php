@@ -190,18 +190,21 @@ class UsuarioController extends BaseController {
 	//lista las solicitudes segun el rol del usuario logueado
 	public function listarSolicitudes($algo=null)
 	{
-		if(!is_null($algo)){
-			if ('eps' == $algo) {
-				if (Auth::user()->eps->aprobado) {
-					$solicitudes1 = $this->repositorio_pacientes->listarSolicitudes(Auth::user()->eps->id);
-					$solicitudes2 = $this->repositorio_medicos->listarSolicitudes(Auth::user()->eps->id);
-					return View::make('solicitudes')->with('pacientes',$solicitudes1)
-													->with('medicos',$solicitudes2);
-				}
-			}
-		}
 		if (Auth::check())
 		{
+			if(!is_null($algo))
+			{
+				if ('eps' == $algo)
+				{
+					if (Auth::user()->eps->aprobado)
+					{
+						$solicitudes1 = $this->repositorio_pacientes->listarSolicitudes(Auth::user()->eps->id);
+						$solicitudes2 = $this->repositorio_medicos->listarSolicitudes(Auth::user()->eps->id);
+						return View::make('solicitudes')->with('pacientes',$solicitudes1)
+														->with('medicos',$solicitudes2);
+					}
+				}
+			}
 		    if(1 == Auth::user()->admin)
 		    {
 		    	#es un administrador
