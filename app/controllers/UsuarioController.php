@@ -35,7 +35,59 @@ class UsuarioController extends BaseController {
 		return View::make('login');
 	}
 
-	//
+	//carga el formulario de recuperar contraseña
+	public function formularioRecuperar()
+	{
+		return View::make('recuperar');
+	}
+
+	//recuperar contraseña
+	public function recuperarContrasena()
+	{
+		$usuario = Input::get('username');
+		$entidad = $this->repositorio_usuarios->obtenerUsuario($usuario);
+		if (is_null($entidad)) {
+			return Redirect::to('/')->with('message','usuario incorrecto');
+		}
+		$token=base64_encode(Hash::make($usuario.$entidad->passhash));
+		//generar un token-link y enviarlo al correo
+		$link=action('UsuarioController@rehacer',array($usuario,$token));
+		mail($entidad->email, 'Recuperacion de contraseña', "para recuperar su contraseña ingrese a <a href=\"$link\">$link</a>");
+		return Redirect::to('/')->with('message','se ha mandado un correo de recuperacion!');
+	}
+	public function rehacer($usuario,$token)
+	{
+		$entidad = $this->repositorio_usuarios->obtenerUsuario($usuario);
+		if (is_null($entidad)) {
+			return Redirect::to('/')->with('message','usuario incorrecto');
+		}
+		$hash = base64_decode($token);
+		if(Hash::check($usuario.$entidad->passhash, $hash)){
+			return View::make('newpass')->with('usuario',$usuario);
+		}else{
+			return Redirect::to('/')->with('message','TokenIncorrecto');
+		}
+	}
+	public function guardarContrasena()
+	{
+		$usuario = Input::get('username');
+		$password = Input::get('password');
+		$entidad = $this->repositorio_usuarios->obtenerUsuario($usuario);
+		if (is_null($entidad)) {
+			return Redirect::to('/')->with('message','usuario incorrecto');
+		}
+		$entidad->passhash = Hash::make($password);
+		$entidad->save();
+		return Redirect::to('/')->with('message','contraseña actualizada correctamenta');
+	}
+
+	//cierra sesion
+	public function cerrarSesion()
+	{
+		Auth::logout();
+		return Redirect::to('/')->with('message','Adios!');
+	}
+	//inicia sesion
 	public function iniciarSesion()
 	{
 		$usuario = Input::get('username');

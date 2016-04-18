@@ -2,11 +2,11 @@
 
 @section('content')
 <div>
-	<h1>Inicio de Sesion en Mental Health</h1>
+	<h1>Recuperacion de contraseña</h1>
 	
-	{{ Form::open(array('action' => 'UsuarioController@iniciarSesion')) }}
+	{{ Form::open(array('action' => 'UsuarioController@guardarContrasena')) }}
 	<div>
-		{{ Form::label('username', 'Usuario') }}
+		{{ Form::label('username', 'Usuario',$usuario) }}
 		{{ Form::text('username') }}
 	</div>
 	<div>
@@ -17,9 +17,6 @@
 		{{ Form::submit('Entrar!') }}
 	</div>
 	{{ Form::close() }}
-	<p>
-		<a href="{{action('UsuarioController@formularioRecuperar')}}">Recuperar Contraseña</a>
-	</p>
 
 </div>
 @stop

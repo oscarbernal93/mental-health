@@ -8,6 +8,8 @@ return
 			  'nombre' => 'Registrarse'),
 		array('url' => action('UsuarioController@listarSolicitudes'),
 			  'nombre' => 'Listar Solicitudes'),
+		array('url' => action('UsuarioController@cerrarSesion'),
+			  'nombre' => 'Cerrar Sesion'),
 	);
 
 

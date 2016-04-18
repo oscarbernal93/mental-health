@@ -2,7 +2,7 @@
 
 @section('content')
 <div>
-	<h1>Registro de Medico General en Mental Health</h1>
+	<h1>Registro de Medico Especialista en Mental Health</h1>
 	
 	{{ Form::open(array('action' => 'MedicoController@guardarRegistro','files'=> true)) }}
 	<div>
