@@ -32,4 +32,42 @@ class UsuarioRepo {
 		return Usuario::all();
 	}
 
+	//entrega los roles de un usuario
+	public function getRoles($id)
+	{
+		$roles = array();
+		$usuario = $this->obtenerUsuario($id);
+		//super-admin
+		if ($usuario->admin)
+		{
+			$roles['admin']="Super Administrador";
+		}
+		//eps
+		if ($usuario->eps)
+		{
+			$roles['eps']="Administrador de Eps";
+		}
+		if ($usuario->persona)
+		{
+			//paciente
+			if ($usuario->persona->paciente)
+			{
+				$roles['paciente']="Paciente";
+			}
+			//medico
+			if ($usuario->persona->medico)
+			{
+				if ($usuario->persona->medico->general)
+				{
+					$roles['medico']="Medico General";
+				}
+				if ($usuario->persona->medico->especialidad)
+				{
+					$roles['especialista']="Medico Especialista";
+				}
+			}
+		}
+		return $roles;
+	}
+
 }

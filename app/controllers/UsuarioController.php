@@ -75,6 +75,13 @@ class UsuarioController extends BaseController {
 					   'medico' => 'Medico General',
 					   'especialista' => 'Medico Especialista',
 					   'eps'=>'Eps');
+		//aqui se identifica si el usuario esta logueado
+		if (Auth::check()) {
+			$usuario = Auth::user();
+			$roles = $this->repositorio_usuarios->getRoles($usuario->usuario);
+			//y si lo que va a hacer es una reacomodacion
+			$tipos = array_diff_key($tipos,$roles);
+		}
 		return View::make('registro')->with('tipos', $tipos);
 	}
 
@@ -161,6 +168,63 @@ class UsuarioController extends BaseController {
 		else
 		{
 			return Redirect::to('/')->with('message','Usted no ha iniciado sesion en el sistema');
+		}
+	}
+	//carga el formulario para obtener otro rol
+	public function formularioOtroRol()
+	{
+		//los diferentes formularios pueden ser
+		//si quiere ser eps, no pide la info de usuario
+		//si quiere ser paciente, medico o especialista
+		//	si no tiene persona le pide toda la info menos usuario
+		//	si tiene persona
+		//	si quiere ser paciente solicita ser paciente sin pedir mas
+		//	si quiere ser medico verifica si era especialista y pide solo lo faltante
+		//	si no pide todos los datos de medico
+		//	si quiere ser especialista verifica si era medico
+
+		$array_eps = array();
+		foreach ($this->repositorio_eps->listarEps() as $eps) {
+			$array_eps[$eps->id] = $eps->nombre;
+		}
+		$tipos_doc = array('cc' => 'Cedula de Ciudadania',
+					   	   'ti' => 'Tarjeta de Identidad',
+					   	   'ce' => 'Cedula de Extranjeria');
+		$tipos_rh = array('op' => 'O+','on' => 'O-',
+					   	  'ap' => 'A+','an' => 'A-',
+					   	  'bp' => 'B+','bn' => 'B-',
+					   	  'abp' => 'AB+','abn' => 'AB-');
+		$tipos_estciv = array('soltero' => 'Soltero',
+					   	      'casado' => 'Casado',
+					   	      'complicado' => 'Es Complidado',
+					   	      'triste' => 'Lechus no me Quiere');
+		$tipo = Input::get('tipo');
+		if("eps"==$tipo)
+		{
+			return View::make('eps.rerol');
+		}
+		elseif ("paciente"==$tipo)
+		{
+			$persona = Auth::user()->persona;
+			return View::make('paciente.rerol')->with('tipos_doc', $tipos_doc)
+												  ->with('tipos_estciv', $tipos_estciv)
+												  ->with('array_eps', $array_eps)
+												  ->with('tipos_rh', $tipos_rh)
+												  ->with('persona',$persona);
+		}
+		elseif ("medico"==$tipo)
+		{
+			//sin implmentar aun
+			return Redirect::back()->with('message','Error de Implementacion');
+		}
+		elseif ("especialista"==$tipo)
+		{
+			//sin implmentar aun
+			return Redirect::back()->with('message','Error de Implementacion');
+		}
+		else
+		{
+			return Redirect::back()->with('message','Seleccione un tipo Valido');
 		}
 	}
 }

@@ -67,6 +67,53 @@ class EpsController extends BaseController {
 			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprovada se le notificará al correo electronico proporcionado');
 		}
 	}
+
+	//recibe, valida y guarda la informacion del registro
+	public function guardarReRol()
+	{
+		//se valida la informacion de acuerdo a las reglas especificadas
+		$validator = Validator::make(
+		    Input::all(),
+		    array(
+		        'nombre' => 'required',
+		        'telefono' => 'required',
+		        'direccion' => 'required',
+		        'correo_institucional' => 'email|required',
+		        'informacion_de_sedes' => 'required',
+		        'logo' => 'required|image',
+		    )
+		);
+		if ($validator->fails())
+		{
+		    return Redirect::back()->withErrors($validator)
+		    					   ->withInput(Input::except('password','foto_de_perfil'));;
+		}
+		else
+		{
+			//si pasa la validacion obtiene toda la informacion
+			$nombre = Input::get('nombre');
+			$telefono = Input::get('telefono');
+			$direccion = Input::get('direccion');
+			$correo_institucional = Input::get('correo_institucional');
+			$informacion_de_sedes = Input::get('informacion_de_sedes');
+			//se almacena la imagen y se guarda la url
+			$file = Input::file('logo');
+			$destinationPath = 'uploads/';
+			$filename = time().$file->getClientOriginalName();
+			$file->move($destinationPath, $filename);
+			$url_foto = asset("uploads/".$filename);
+			//ahora se crean las entidades correspondientes
+			//una eps y un usuario
+			$entidad_eps = $this->repositorio_eps->crearEps($nombre,$telefono,$direccion,$correo_institucional,$informacion_de_sedes,$url_foto);
+			$entidad_usuario = Auth::user();
+			//ahora se establecen las relaciones entre las entidades
+			$entidad_usuario->eps()->associate($entidad_eps);
+			//se guardan los cambios
+			$entidad_usuario->save();
+			//finalmente se redirecciona
+			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprovada se le notificará al correo electronico proporcionado');
+		}
+	}
 	//funcion que permite aprobar una solicitud
 	public function aprobarSolicitud()
 	{
