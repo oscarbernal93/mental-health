@@ -25,21 +25,27 @@ Route::get('registro', 'UsuarioController@tipoRegistro');
 Route::get('formulario', 'UsuarioController@formularioRegistrarse');
 Route::get('solicitudes/{algo?}', 'UsuarioController@listarSolicitudes');
 Route::get('adicionar-rol', 'UsuarioController@formularioOtroRol');
+Route::get('editar', 'UsuarioController@tipoEdicion');
+Route::post('edicion', 'UsuarioController@definirEdicion');
+Route::post('usuario/guardare', 'UsuarioController@guardarEdicion');
 //rutas de paciente
 Route::post('paciente/guardar', 'PacienteController@guardarRegistro');
 Route::post('paciente/guardar-rrcp', 'PacienteController@guardarReRolConPersona');
 Route::post('paciente/guardar-rrsp', 'PacienteController@guardarReRolSinPersona');
 Route::post('solicitudes/paciente/aprobar/', 'PacienteController@aprobarSolicitud');
 Route::post('solicitudes/paciente/eliminar/', 'PacienteController@borrarSolicitud');
+Route::post('paciente/guardare', 'PacienteController@guardarEdicion');
 //rutas de medico
 Route::post('medico/guardar', 'MedicoController@guardarRegistro');
 Route::post('solicitudes/medico/aprobar/', 'MedicoController@aprobarSolicitud');
 Route::post('solicitudes/medico/eliminar/', 'MedicoController@borrarSolicitud');
+Route::post('medico/guardare', 'MedicoController@guardarEdicion');
 //rutas de Eps
 Route::post('eps/guardar', 'EpsController@guardarRegistro');
 Route::post('eps/guardar-rr', 'EpsController@guardarReRol');
-Route::post('solicitudes/medico/aprobar/', 'EpsController@aprobarSolicitud');
-Route::post('solicitudes/medico/eliminar/', 'EpsController@borrarSolicitud');
+Route::post('solicitudes/eps/aprobar/', 'EpsController@aprobarSolicitud');
+Route::post('solicitudes/eps/eliminar/', 'EpsController@borrarSolicitud');
+Route::post('eps/guardare', 'EpsController@guardarEdicion');
 
 Route::get('/', 'InicioController@paginaInicio');
 

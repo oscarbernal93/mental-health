@@ -77,7 +77,7 @@ class PacienteController extends BaseController {
 			$entidad_persona->save();
 			$entidad_paciente->save();
 			//finalmente se redirecciona
-			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprovada se le notificará al correo electronico proporcionado');
+			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprobada se le notificará al correo electronico proporcionado');
 		}
 	}
 
@@ -137,7 +137,7 @@ class PacienteController extends BaseController {
 			$entidad_persona->save();
 			$entidad_paciente->save();
 			//finalmente se redirecciona
-			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprovada se le notificará al correo electronico proporcionado');
+			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprobada se le notificará al correo electronico proporcionado');
 		}
 	}
 	//recibe, valida y guarda la informacion del registro
@@ -172,7 +172,7 @@ class PacienteController extends BaseController {
 			$entidad_persona->save();
 			$entidad_paciente->save();
 			//finalmente se redirecciona
-			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprovada se le notificará al correo electronico proporcionado');
+			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprobada se le notificará al correo electronico proporcionado');
 		}
 	}
 

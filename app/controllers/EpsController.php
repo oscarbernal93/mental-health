@@ -64,7 +64,7 @@ class EpsController extends BaseController {
 			//se guardan los cambios
 			$entidad_usuario->save();
 			//finalmente se redirecciona
-			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprovada se le notificará al correo electronico proporcionado');
+			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprobada se le notificará al correo electronico proporcionado');
 		}
 	}
 
@@ -111,7 +111,7 @@ class EpsController extends BaseController {
 			//se guardan los cambios
 			$entidad_usuario->save();
 			//finalmente se redirecciona
-			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprovada se le notificará al correo electronico proporcionado');
+			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprobada se le notificará al correo electronico proporcionado');
 		}
 	}
 	//funcion que permite aprobar una solicitud

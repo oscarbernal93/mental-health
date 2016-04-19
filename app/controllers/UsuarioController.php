@@ -217,7 +217,7 @@ class UsuarioController extends BaseController {
 		    	#se verifica si administra una eps
 		    	if (Auth::user()->eps->aprobado)
 		    	{
-		    		#se verifica que la eps este aprovada
+		    		#se verifica que la eps este aprobada
 		    		//se listan las solicitudes de medicos y pacientes
 		    		$solicitudes1 = $this->repositorio_pacientes->listarSolicitudes(Auth::user()->eps->id);
 					$solicitudes2 = $this->repositorio_medicos->listarSolicitudes(Auth::user()->eps->id);
@@ -291,5 +291,75 @@ class UsuarioController extends BaseController {
 		{
 			return Redirect::back()->with('message','Seleccione un tipo Valido');
 		}
+	}
+	//muesta una lista con los roles y le permite al usuario elegir cual rol editar
+	public function tipoEdicion($value='')
+	{
+		if (Auth::check())
+		{
+			$usuario = Auth::user();
+			$roles = $this->repositorio_usuarios->getRoles($usuario->usuario);
+			return View::make('seleccionar_editar')->with('roles',$roles);
+		}
+		else
+		{
+			return Redirect::to('/')->with('message','Usted no ha iniciado sesion en el sistema');
+		}
+	}
+	public function definirEdicion()
+	{		
+		$tipos_doc = array('cc' => 'Cedula de Ciudadania',
+					   	   'ti' => 'Tarjeta de Identidad',
+					   	   'ce' => 'Cedula de Extranjeria');
+		$tipos_rh = array('op' => 'O+','on' => 'O-',
+					   	  'ap' => 'A+','an' => 'A-',
+					   	  'bp' => 'B+','bn' => 'B-',
+					   	  'abp' => 'AB+','abn' => 'AB-');
+		$tipos_estciv = array('soltero' => 'Soltero',
+					   	      'casado' => 'Casado',
+					   	      'complicado' => 'Es Complidado',
+					   	      'triste' => 'Lechus no me Quiere');
+		$rol = Input::get('rol');
+		$usuario = Auth::user();
+		if ('admin' == $rol)
+		{
+			# code...
+			return View::make('editar_admin')->with('usuario',$usuario);
+		}
+		elseif('eps' == $rol)
+		{
+			# code...
+			return View::make('eps.editar')->with('eps',$usuario->eps);
+		}
+		elseif('paciente' == $rol)
+		{
+			# code...
+			return View::make('paciente.editar')->with('persona',$usuario->persona)
+												  ->with('tipos_estciv', $tipos_estciv)
+												  ->with('tipos_rh', $tipos_rh)
+												  ->with('tipos_doc', $tipos_doc);
+		}
+		elseif('medico' == $rol)
+		{
+			# code...
+			return View::make('medico.editar')->with('persona',$usuario->persona)
+												->with('tipos_estciv', $tipos_estciv)
+												  ->with('tipos_rh', $tipos_rh)
+												  ->with('tipos_doc', $tipos_doc);
+		}
+		elseif('especialista' == $rol)
+		{
+			# code...
+			return View::make('medico.editar_esp')->with('persona',$usuario->persona)
+													->with('tipos_estciv', $tipos_estciv)
+												  	->with('tipos_rh', $tipos_rh)
+												  	->with('tipos_doc', $tipos_doc);
+		}
+		else
+		{
+			#code
+			return Redirect::to('/')->with('message','Debe seleccionar un rol valido');
+		}
+		die($rol);
 	}
 }
