@@ -31,16 +31,18 @@
 	</tbody>
 	</table>
 	@if(Auth::user()->eps->aprobado)
-	<div>
-	<br>
-		<h3>Atencion!</h3>
-		<p>
-			Usted tambien tiene permisos para aprobar solicitudes como administrador de Eps (administrar pacientes y medicos).
-		</p>
-		<p>
-			<a href="{{action('UsuarioController@listarSolicitudes','eps')}}">Ver Solicitudes como EPS</a>
-		</p>
-	</div>
+		@if(Auth::user()->eps->aprobado)
+		<div>
+		<br>
+			<h3>Atencion!</h3>
+			<p>
+				Usted tambien tiene permisos para aprobar solicitudes como administrador de Eps (administrar pacientes y medicos).
+			</p>
+			<p>
+				<a href="{{action('UsuarioController@listarSolicitudes','eps')}}">Ver Solicitudes como EPS</a>
+			</p>
+		</div>
+		@endif
 	@endif
 	</div>
 </div>
