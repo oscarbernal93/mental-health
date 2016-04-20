@@ -196,16 +196,19 @@ class UsuarioController extends BaseController {
 			{
 				if ('eps' == $algo)
 				{
-					if (Auth::user()->eps->aprobado)
+					if (Auth::user()->eps)
 					{
-						$solicitudes1 = $this->repositorio_pacientes->listarSolicitudes(Auth::user()->eps->id);
-						$solicitudes2 = $this->repositorio_medicos->listarSolicitudes(Auth::user()->eps->id);
-						return View::make('solicitudes')->with('pacientes',$solicitudes1)
-														->with('medicos',$solicitudes2);
+						if (Auth::user()->eps->aprobado)
+						{
+							$solicitudes1 = $this->repositorio_pacientes->listarSolicitudes(Auth::user()->eps->id);
+							$solicitudes2 = $this->repositorio_medicos->listarSolicitudes(Auth::user()->eps->id);
+							return View::make('solicitudes')->with('pacientes',$solicitudes1)
+															->with('medicos',$solicitudes2);
+						}
 					}
 				}
 			}
-		    if(1 == Auth::user()->admin)
+		    if(Auth::user()->admin)
 		    {
 		    	#es un administrador
 		    	//se listan las solicitudes de eps
