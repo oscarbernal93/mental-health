@@ -30,7 +30,7 @@
 		@endforeach
 	</tbody>
 	</table>
-	@if(Auth::user()->eps->aprobado)
+	@if(Auth::user()->eps)
 		@if(Auth::user()->eps->aprobado)
 		<div>
 		<br>
