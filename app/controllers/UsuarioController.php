@@ -53,7 +53,7 @@ class UsuarioController extends BaseController {
 		//generar un token-link y enviarlo al correo
 		$link=action('UsuarioController@rehacer',array($usuario,$token));
 		mail($entidad->email, 'Recuperacion de contraseña', "para recuperar su contraseña ingrese a <a href=\"$link\">$link</a>");
-		return Redirect::to('/')->with('message','se ha mandado un correo de recuperacion!');
+		return Redirect::to('/')->with('message','se ha mandado un correo de recuperacion! '.$link);
 	}
 	public function rehacer($usuario,$token)
 	{
@@ -360,6 +360,6 @@ class UsuarioController extends BaseController {
 			#code
 			return Redirect::to('/')->with('message','Debe seleccionar un rol valido');
 		}
-		die($rol);
 	}
+
 }
