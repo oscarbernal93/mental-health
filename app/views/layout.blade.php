@@ -36,8 +36,12 @@
 	    </nav>
 
 	    <div class="container">
-
-	      @yield('content')
+	    	<br>
+	    	@if(\Session::get('message'))
+		        <div class="alert alert-info col-md-12">{{Session::get('message')}}</div>
+		    @endif
+	      	
+	      	@yield('content')
 
 	    </div>
 

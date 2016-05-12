@@ -110,4 +110,95 @@ class MedicoController extends BaseController {
 		//se redirecciona
 		return Redirect::to('/')->with('message','Medico eliminado correctamente');
 	}
+	public function verHorario()
+	{
+		$estado = array(
+			'0' => 'No disponible',
+			'1' => 'Cita como Esp.',
+			'2' => 'Cita como Gen.',
+			'3' => 'Libre como Esp.',
+			'4' => 'Libre como Gen.'
+			);
+		$colores = array(
+			'0' => 'active',
+			'1' => 'danger',
+			'2' => 'danger',
+			'3' => 'info',
+			'4' => 'success',
+			);
+		if (Auth::check()) {
+			if(Auth::user()->persona){
+				$medico = Auth::user()->persona->medico;
+			}else{
+				$medico = NULL;
+			}
+			if (!is_null($medico)){
+				$turnos = array();
+				$turnos['lunes'] = $medico->lunes;
+				$turnos['martes'] = $medico->martes;
+				$turnos['miercoles'] = $medico->miercoles;
+				$turnos['jueves'] = $medico->jueves;
+				$turnos['viernes'] = $medico->viernes;
+				$turnos['sabado'] = $medico->sabado;
+				return View::make('medico.horario')->with('turnos',$turnos)->with('estado',$estado)->with('colores',$colores);
+				
+			}
+			else
+			{
+				return Redirect::to('/')->with('message','Usted no es medico');
+			}
+		}
+		else
+		{
+			return Redirect::to('/')->with('message','usted no ha iniciado sesion correctamente');
+		}
+	}
+	public function formularioEditarHorario()
+	{	
+
+		$estados = array(
+			'0' => 'No disponible',
+			'3' => 'Libre como Esp.',
+			'4' => 'Libre como Gen.'
+			);
+		if (Auth::check()) {
+			$medico = Auth::user()->persona->medico;
+			if (!is_null($medico)){
+				$turnos = array();
+				$turnos['lunes'] = $medico->lunes;
+				$turnos['martes'] = $medico->martes;
+				$turnos['miercoles'] = $medico->miercoles;
+				$turnos['jueves'] = $medico->jueves;
+				$turnos['viernes'] = $medico->viernes;
+				$turnos['sabado'] = $medico->sabado;
+				return View::make('medico.formulario_horario')->with('turnos',$turnos)->with('estados',$estados);
+				
+			}
+			else
+			{
+				return Redirect::to('/')->with('message','Usted no es medico');
+			}
+		}
+		else
+		{
+			return Redirect::to('/')->with('message','usted no ha iniciado sesion correctamente');
+		}		
+	}
+	public function editarHorario()
+	{
+		$medico = Auth::user()->persona->medico;
+		$horario = (Input::all());
+		$salida = array();
+		$dias = array('lunes','martes','miercoles','jueves','viernes','sabado');
+		foreach ($dias as $dia) {
+			$temp='';
+			for($j=0;$j<16;$j++){
+				$temp.=$horario[$dia.$j];
+			}
+			$salida[$dia]=$temp;	
+		}
+		$this->repositorio_medicos->actualizarAgenda($medico->id,$salida);
+		mail($medico->email,'Actualizacion de Agenda','Su horario ha sido modificado correctamente.');
+		return Redirect::action('MedicoController@verHorario')->with('message','horario actualizado correctamente');
+	}
 }

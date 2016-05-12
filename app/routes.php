@@ -40,6 +40,9 @@ Route::post('medico/guardar', 'MedicoController@guardarRegistro');
 Route::post('solicitudes/medico/aprobar/', 'MedicoController@aprobarSolicitud');
 Route::post('solicitudes/medico/eliminar/', 'MedicoController@borrarSolicitud');
 Route::post('medico/guardare', 'MedicoController@guardarEdicion');
+Route::get('medico/horario', 'MedicoController@verHorario');
+Route::get('medico/horario/editar', 'MedicoController@formularioEditarHorario');
+Route::post('medico/horario/editar', 'MedicoController@editarHorario');
 //rutas de Eps
 Route::post('eps/guardar', 'EpsController@guardarRegistro');
 Route::post('eps/guardar-rr', 'EpsController@guardarReRol');

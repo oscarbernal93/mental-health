@@ -32,6 +32,9 @@ class UsuarioController extends BaseController {
 	//carga el formulario de login y lo entrega a la vista
 	public function formularioLogin()
 	{
+		if (Auth::check()) {
+			return Redirect::to('/')->with('message','Usted ya ha iniciado sesion en el sistema');
+		}
 		return View::make('login');
 	}
 

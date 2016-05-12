@@ -3,9 +3,6 @@
 @section('content')
 <div>
 	<h1>Mental Health</h1>
-	@if(\Session::get('message'))
-        <div class="alert alert-info col-md-12">{{Session::get('message')}}</div>
-    @endif
     <p>Bienvenido {{$usuario}}</p>
     @if(is_null($roles))
     	<p>Usted no se ha autenticado todavia, por favor Inicie Sesión</p>

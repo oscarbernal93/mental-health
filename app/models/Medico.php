@@ -27,4 +27,8 @@ class Medico extends Eloquent{
     {
         return $this->hasOne('Persona', 'id_medico', 'id');
     }
+    public function citas()
+    {
+        return $this->hasMany('Cita', 'id_medico', 'id');
+    }
 }

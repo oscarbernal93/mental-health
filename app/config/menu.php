@@ -10,6 +10,8 @@ return
 			  'nombre' => 'Solicitudes'),
 		array('url' => action('UsuarioController@tipoEdicion'),
 			  'nombre' => 'Editar Cuenta'),
+		array('url' => action('MedicoController@verHorario'),
+			  'nombre' => 'Ver Horario'),
 		array('url' => action('UsuarioController@cerrarSesion'),
 			  'nombre' => 'Cerrar Sesion'),
 	);

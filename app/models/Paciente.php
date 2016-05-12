@@ -32,4 +32,8 @@ class Paciente extends Eloquent{
     {
         return $this->hasOne('Persona','id_paciente');
     }
+    public function citas()
+    {
+        return $this->hasMany('Persona','id_paciente','id');
+    }
 }
