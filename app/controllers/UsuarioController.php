@@ -13,6 +13,7 @@ class UsuarioController extends BaseController {
 		$this->repositorio_pacientes = new PacienteRepo;
 		$this->repositorio_medicos = new MedicoRepo;
 		$this->repositorio_eps = new EpsRepo;
+		$this->repositorio_personas = new PersonaRepo;
 	}
 
 	//muestra una lista de todos los usuarios existentes
@@ -97,30 +98,28 @@ class UsuarioController extends BaseController {
 		$password = Input::get('password');
 
 		$persona = $this->repositorio_usuarios->obtenerUsuario($usuario);
-		if(!is_null($persona))
+		if(is_null($persona))
 		{
-			if (Hash::check($password, $persona->passhash))
-			{
-				Auth::login($persona);
-				return Redirect::to('/')->with('message','Todo bien, todo bonito');
-			}
-			else
-			{
-				if (Hash::needsRehash($persona->passhash))
-				{
-					return Redirect::to('/')->with('message','La contraseña esta mala, comuniquese con el administrador del sistema');
-				}
-				else
-				{
-					return Redirect::to('/')->with('message','La contraseña es incorrecta');
-				}
-			}
+			$persona = $this->repositorio_personas->obtenerPersonaByDoc($usuario);
+			$persona = $persona->usuario;
+		}
+		if (Hash::check($password, $persona->passhash))
+		{
+			Auth::login($persona);
+			return Redirect::to('/')->with('message','Todo bien, todo bonito');
 		}
 		else
 		{
-			return Redirect::to('/')->with('message','El usuario no existe');
+			if (Hash::needsRehash($persona->passhash))
+			{
+				return Redirect::to('/')->with('message','La contraseña esta mala, comuniquese con el administrador del sistema');
+			}
+			else
+			{
+				return Redirect::to('/')->with('message','La contraseña es incorrecta');
+			}
 		}
-		return Redirect::to('/')->with('message','Algo salio mal');
+		return Redirect::to('/')->with('message','No se encontró el usuario');
 	}
 
 	//carga permite seleccionar el tipo de formulario a mostrar

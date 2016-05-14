@@ -6,7 +6,7 @@
 	
 	{{ Form::open(array('action' => 'UsuarioController@iniciarSesion')) }}
 	<div>
-		{{ Form::label('username', 'Usuario') }}
+		{{ Form::label('username', 'Usuario o Documento de Identidad') }}
 		{{ Form::text('username') }}
 	</div>
 	<div>

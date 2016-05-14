@@ -21,7 +21,11 @@ class PersonaRepo {
 	//busca un Persona por su llave primaria
 	public function obtenerPersona($id)
 	{
-		return Eps::query()->where('id','=',$id)->where('aprobado','=',1)->first();
+		return Persona::query()->where('id','=',$id)->first();
+	}
+	public function obtenerPersonaByDoc($doc)
+	{
+		return Persona::query()->where('documento','=',$doc)->first();
 	}
 
 	//busca un Persona por su llave primaria y lo borra
