@@ -268,7 +268,7 @@ class UsuarioController extends BaseController {
 		$tipos_estciv = array('soltero' => 'Soltero',
 					   	      'casado' => 'Casado',
 					   	      'complicado' => 'Es Complidado',
-					   	      'triste' => 'Lechus no me Quiere');
+					   	      'triste' => 'Lechus no me Quiere :(');
 		$tipo = Input::get('tipo');
 		if("eps"==$tipo)
 		{
@@ -285,13 +285,47 @@ class UsuarioController extends BaseController {
 		}
 		elseif ("medico"==$tipo)
 		{
-			//sin implmentar aun
-			return Redirect::back()->with('message','Error de Implementacion');
+			$persona = Auth::user()->persona;//sin implmentar aun
+			if(!is_null($persona)){
+				if (!is_null($persona->medico)){
+					if ($persona->medico->general) {
+						return Redirect::back()->with('Usted ya es medico general');
+					}else{
+						//es especialista y quiere ser general
+						$persona->medico->general = 1; //aqui hay un error pero nadie lo sabe
+						$persona->medico->save();
+					}
+					
+				}
+				return View::make('medico.rerol')->with('tipos_doc', $tipos_doc)
+												->with('tipos_estciv', $tipos_estciv)
+												->with('array_eps', $array_eps)
+												->with('tipos_rh', $tipos_rh)
+												->with('persona',$persona);
+			}
 		}
 		elseif ("especialista"==$tipo)
 		{
-			//sin implmentar aun
-			return Redirect::back()->with('message','Error de Implementacion');
+		//sin implmentar aun
+		//return Redirect::back()->with('message','Error de Implementacion');
+			$persona = Auth::user()->persona;//sin implmentar aun
+			if(!is_null($persona)){
+				if (!is_null($persona->medico)){
+					if ($persona->medico->especialidad != '' && !is_null($persona->medico->especialidad) ) {
+						return Redirect::back()->with('Usted ya es medico especialista');
+					}else{
+						//es general y quiere ser especialista
+						//se le pide el dato
+						return View::make('medico.gen2esp')->with('medico_id',$persona->medico->id);
+					}
+					
+				}
+				return View::make('medico.rerol')->with('tipos_doc', $tipos_doc)
+												->with('tipos_estciv', $tipos_estciv)
+												->with('array_eps', $array_eps)
+												->with('tipos_rh', $tipos_rh)
+												->with('persona',$persona);
+			}
 		}
 		else
 		{

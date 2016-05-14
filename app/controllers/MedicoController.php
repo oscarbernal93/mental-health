@@ -154,16 +154,30 @@ class MedicoController extends BaseController {
 		}
 	}
 	public function formularioEditarHorario()
-	{	
-
-		$estados = array(
-			'0' => 'No disponible',
-			'3' => 'Libre como Esp.',
-			'4' => 'Libre como Gen.'
-			);
+	{		
 		if (Auth::check()) {
 			$medico = Auth::user()->persona->medico;
 			if (!is_null($medico)){
+				if((!is_null($medico->especialidad))and($medico->general==1)){				
+				$estados = array(
+						'0' => 'No disponible',
+						'3' => 'Libre como Esp.',
+						'4' => 'Libre como Gen.'
+					);
+				}else{
+					if(is_null($medico->especialidad)){
+						$estados = array(
+							'0' => 'No disponible',
+							'4' => 'Libre como Gen.'
+						);
+					}else{
+						$estados = array(
+							'0' => 'No disponible',
+							'3' => 'Libre como Esp.'
+						);
+					}					
+				}
+				
 				$turnos = array();
 				$turnos['lunes'] = $medico->lunes;
 				$turnos['martes'] = $medico->martes;
@@ -201,4 +215,145 @@ class MedicoController extends BaseController {
 		mail($medico->email,'Actualizacion de Agenda','Su horario ha sido modificado correctamente.');
 		return Redirect::action('MedicoController@verHorario')->with('message','horario actualizado correctamente');
 	}
+	public function guardarReRolSinPersona()
+	{
+		//se valida la informacion de acuerdo a las reglas especificadas
+		$validator = Validator::make(
+		    Input::all(),
+		    array(
+		        'eps' => 'required|exists:eps,id',
+		        'nombre' => 'required',
+		        'fecha_de_nacimiento' => 'required|date',
+		        'tipo_de_documento' => 'required|in:cc,ti,ce',
+		        'documento' => 'required',
+		        'rh' => 'required|in:op,on,ap,an,bp,bn,abp,abn',
+		        'estado_civil' => 'required|in:soltero,casado,complicado,triste',
+		        'telefono' => 'required',
+		        'foto_de_perfil' => 'required|image',
+		        'correo_institucional' => 'email',
+		        'general' => 'required|boolean',
+		        'info_academica' => 'required',
+		        'especialidad' => ''
+		    )
+		);
+		if ($validator->fails())
+		{
+		    return Redirect::back()->withErrors($validator)
+		    					   ->withInput(Input::except('password','foto_de_perfil'));;
+		}
+		else
+		{
+			//si pasa la validacion obtiene toda la informacion
+			$eps = Input::get('eps');
+			$nombre = Input::get('nombre');
+			$fecha_de_nacimiento = Input::get('fecha_de_nacimiento');
+			$tipo_de_documento = Input::get('tipo_de_documento');
+			$documento = Input::get('documento');
+			$rh = Input::get('rh');
+			$estado_civil = Input::get('estado_civil');
+			$telefono = Input::get('telefono');
+			$correo_institucional = Input::get('correo_institucional');
+			$general = Input::get('general');
+			$info_academica = Input::get('info_academica');
+			$especialidad = Input::get('especialidad');
+			//se almacena la imagen y se guarda la url
+			$file = Input::file('foto_de_perfil');
+			$destinationPath = 'uploads/';
+			$filename = time().$file->getClientOriginalName();
+			$file->move($destinationPath, $filename);
+			$url_foto = asset("uploads/".$filename);
+			//ahora se crean las entidades correspondientes
+			//un paciente, una persona y un usuario
+			$entidad_medico = $this->repositorio_medicos->crearMedico($correo_institucional,$general,$info_academica,$especialidad);
+			$entidad_persona = $this->repositorio_personas->crearPersona($nombre,$fecha_de_nacimiento,$tipo_de_documento,$documento,$rh,$estado_civil,$telefono,$url_foto);
+			$entidad_usuario = Auth::user();
+			//se busca la entidad de la eps
+			$entidad_eps = $this->repositorio_eps->obtenerEps($eps);
+			//ahora se establecen las relaciones entre las entidades
+			$entidad_usuario->persona()->associate($entidad_persona);
+			$entidad_persona->medico()->associate($entidad_medico);
+			$entidad_medico->eps()->associate($entidad_eps);
+			//se guardan los cambios
+			$entidad_usuario->save();
+			$entidad_persona->save();
+			$entidad_medico->save();
+			//finalmente se redirecciona
+			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprobada se le notificará al correo electronico proporcionado');
+		}
+	}
+	public function guardarReRolConPersona()
+	{
+		//se valida la informacion de acuerdo a las reglas especificadas
+		$validator = Validator::make(
+		    Input::all(),
+		    array(
+		        
+		        'eps' => 'required|exists:eps,id',
+		        'correo_institucional' => 'email',
+		        'general' => 'required|boolean',
+		        'info_academica' => 'required',
+		        'especialidad' => ''
+		    )
+		);
+		if ($validator->fails())
+		{
+		    return Redirect::back()->withErrors($validator)
+		    					   ->withInput(Input::except('password','foto_de_perfil'));;
+		}
+		else
+		{
+			//si pasa la validacion obtiene toda la informacion
+			$eps = Input::get('eps');
+			$correo_institucional = Input::get('correo_institucional');
+			$general = Input::get('general');
+			$info_academica = Input::get('info_academica');
+			$especialidad = Input::get('especialidad');
+			//ahora se crean las entidades correspondientes
+			//un paciente, una persona y un usuario
+			$entidad_medico = $this->repositorio_medicos->crearMedico($correo_institucional,$general,$info_academica,$especialidad);
+			$entidad_persona = Auth::user()->persona;
+			//se busca la entidad de la eps
+			$entidad_eps = $this->repositorio_eps->obtenerEps($eps);
+			//ahora se establecen las relaciones entre las entidades
+			$entidad_persona->medico()->associate($entidad_medico);
+			$entidad_medico->eps()->associate($entidad_eps);
+			//se guardan los cambios
+			$entidad_persona->save();
+			$entidad_medico->save();
+			//finalmente se redirecciona
+			return Redirect::to('/')->with('message','Su solicitud de registro se a almacenado correctamente, una vez sea aprobada se le notificará al correo electronico proporcionado');
+		}
+	}
+
+	public function guardarGen2esp()
+	{
+		//se valida la informacion de acuerdo a las reglas especificadas
+		$validator = Validator::make(
+		    Input::all(),
+		    array(
+		    	'id' => 'required|exists:medico,id',
+		        'especialidad' => 'required'
+		    )
+		);
+		if ($validator->fails())
+		{
+		    return Redirect::back()->withErrors($validator)
+		    					   ->withInput(Input::except('password','foto_de_perfil'));;
+		}
+		else
+		{
+			//si pasa la validacion obtiene toda la informacion
+			$id = Input::get('id');
+			$especialidad = Input::get('especialidad');
+			//ahora se crean las entidades correspondientes
+			//un paciente, una persona y un usuario
+			$entidad_medico = $this->repositorio_medicos->obtenerMedico($id);
+			$entidad_medico->especialidad = $especialidad;
+			//se guardan los cambios
+			$entidad_medico->save();
+			//finalmente se redirecciona
+			return Redirect::to('/')->with('message','El cambio se ha realizado "correctamente"');
+		}
+	}
+
 }

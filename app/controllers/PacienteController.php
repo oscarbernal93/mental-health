@@ -46,6 +46,7 @@ class PacienteController extends BaseController {
 			//si pasa la validacion obtiene toda la informacion
 			$eps = Input::get('eps');
 			$usuario = Input::get('usuario');
+
 			$password = Input::get('password');
 			$email = Input::get('email');
 			$nombre = Input::get('nombre');
