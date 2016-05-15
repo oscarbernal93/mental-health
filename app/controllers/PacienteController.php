@@ -305,7 +305,7 @@ class PacienteController extends BaseController {
 		$medico->save();
 		$cita->save();
 		$correopaciente=$cita->paciente->persona->usuario->email;
-		$correomedico=$cita->medico->persona->usuario->email;
+		$correomedico=$cita->medico->email;
 		mail($correopaciente, 'Correo de Notificacion Cita', "Su cita ha sido guardada correctamente");
 		mail($correomedico, 'Correo de Notificacion Cita', "Se le ha asignado una cita");
 		return Redirect::to('/')->with('message','Se ha guardado su cita');
@@ -336,7 +336,7 @@ class PacienteController extends BaseController {
 		$medico->save();
 		$this->repositorio_citas->borrarCita($id);
 		$correopaciente=$cita->paciente->persona->usuario->email;
-		$correomedico=$cita->medico->persona->usuario->email;
+		$correomedico=$cita->medico->email;
 		mail($correopaciente, 'Cancelacion de Cita', "Su cita ha sido cancelada correctamente");
 		mail($correomedico, 'Cancelacion de Cita', "Le cancelaron la cita con ".$cita->paciente->persona->nombre);
 		return Redirect::to('/')->with('message','Se ha eliminado su cita con el doctor ');
