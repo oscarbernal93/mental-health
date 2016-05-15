@@ -52,7 +52,9 @@
 		{{ Form::textarea('info_academica',Input::old('info_academica')) }}
 	</div>
 	<div>
+		{{Form::hidden('general','1')}}
 		{{ Form::submit('Registrarse!') }}
+		}
 	</div>
 	{{ Form::close() }}
 
