@@ -56,7 +56,13 @@
 				<td>{{$cita->tipo}}</td>
 				<td>{{$cita->medico->persona->nombre}}</td>
 				<td>
-				<button onclick="alert('no implementado aun :P')">Eliminar</button>
+				{{ Form::open(array('action' => 'PacienteController@eliminarCita'))}}
+					
+					<div>
+						{{ Form::hidden('id',$cita->id) }}
+						{{ Form::submit('Eliminar!')}}
+					</div>
+				{{ Form::close() }}
 				<button onclick="alert('no implementado aun :P')">Calificar</button>
 				</td>
 			</tr>

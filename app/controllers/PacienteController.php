@@ -304,10 +304,41 @@ class PacienteController extends BaseController {
 		//se guardan los cambios
 		$medico->save();
 		$cita->save();
-		$correopaciente=$cita->paciente->persona->email;
-		$correomedico=$cita->medico->persona->email;
+		$correopaciente=$cita->paciente->persona->usuario->email;
+		$correomedico=$cita->medico->persona->usuario->email;
 		mail($correopaciente, 'Correo de Notificacion Cita', "Su cita ha sido guardada correctamente");
 		mail($correomedico, 'Correo de Notificacion Cita', "Se le ha asignado una cita");
 		return Redirect::to('/')->with('message','Se ha guardado su cita');
+	}
+	public function eliminarCita()
+	{
+		$id= Input::get('id');
+		$cita=$this->repositorio_citas->obtenerCita($id);
+		$medico=$cita->medico;
+		$dia=$cita->dia;
+		$turno=$cita->turno;
+		if($dia==0){
+			$dia='lunes';
+		}elseif($dia==1){
+			$dia='martes';
+		}elseif($dia==2){
+			$dia='miercoles';
+		}elseif($dia==3){
+			$dia='jueves';
+		}elseif($dia==4){
+			$dia='viernes';
+		}elseif($dia==5){
+			$dia='sabado';
+		}
+		$temp=$medico->$dia;
+		$temp[$turno]='0';
+		$medico->$dia=$temp;
+		$medico->save();
+		$this->repositorio_citas->borrarCita($id);
+		$correopaciente=$cita->paciente->persona->usuario->email;
+		$correomedico=$cita->medico->persona->usuario->email;
+		mail($correopaciente, 'Cancelacion de Cita', "Su cita ha sido cancelada correctamente");
+		mail($correomedico, 'Cancelacion de Cita', "Le cancelaron la cita con ".$cita->paciente->persona->nombre);
+		return Redirect::to('/')->with('message','Se ha eliminado su cita con el doctor ');
 	}
 }

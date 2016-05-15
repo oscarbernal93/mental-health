@@ -32,6 +32,9 @@ Route::post('usuario/guardare', 'UsuarioController@guardarEdicion');
 Route::post('paciente/guardar', 'PacienteController@guardarRegistro');
 Route::post('paciente/guardar-rrcp', 'PacienteController@guardarReRolConPersona');
 Route::post('paciente/guardar-rrsp', 'PacienteController@guardarReRolSinPersona');
+Route::get('paciente/cita/eliminar', 'PacienteController@eliminarCita');
+Route::post('paciente/cita/eliminar', 'PacienteController@eliminarCita');
+
 Route::post('solicitudes/paciente/aprobar/', 'PacienteController@aprobarSolicitud');
 Route::post('solicitudes/paciente/eliminar/', 'PacienteController@borrarSolicitud');
 Route::post('paciente/guardare', 'PacienteController@guardarEdicion');
