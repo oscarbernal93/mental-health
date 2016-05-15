@@ -294,8 +294,16 @@ class PacienteController extends BaseController {
 		}else{
 			$tipo='Especialista';
 		}
+		$numeroDia = array(
+				'lunes' => 0, 
+				'martes' => 1, 
+				'miercoles' => 2, 
+				'jueves' => 3, 
+				'viernes' => 4, 
+				'sabado' => 5
+			);
 		$paciente= Auth::user()->persona->paciente;
-		$cita = $this->repositorio_citas->crearCita($tipo,0,$turno,$dia);
+		$cita = $this->repositorio_citas->crearCita($tipo,0,$turno,$numeroDia[$dia]);
 		$cita->paciente()->associate($paciente);
 		$cita->medico()->associate($medico);
 		//$medico->$dia[(int)$turno]=((int)$medico->$dia[(int)$turno])-2;
