@@ -42,6 +42,7 @@ Route::post('paciente/guardare', 'PacienteController@guardarEdicion');
 Route::get('lista/medicos', 'PacienteController@listarMedicos');
 Route::get('medico/agenda/{id}', 'PacienteController@verHorarioMedico');
 Route::post('medico/agenda/', 'PacienteController@pedirCita');
+Route::post('medico/cambio/cita', 'PacienteController@efectuarCambioCita');
 //rutas de medico
 Route::post('medico/guardar', 'MedicoController@guardarRegistro');
 Route::post('solicitudes/medico/aprobar/', 'MedicoController@aprobarSolicitud');

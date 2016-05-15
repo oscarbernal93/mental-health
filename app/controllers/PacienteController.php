@@ -347,7 +347,7 @@ class PacienteController extends BaseController {
 		$correomedico=$cita->medico->email;
 		mail($correopaciente, 'Cancelacion de Cita', "Su cita ha sido cancelada correctamente");
 		mail($correomedico, 'Cancelacion de Cita', "Le cancelaron la cita con ".$cita->paciente->persona->nombre);
-		return Redirect::to('/')->with('message','Se ha eliminado su cita con el doctor ');
+		return Redirect::action('PacienteController@listarMedicos')->with('message','Se ha eliminado su cita con el doctor ');
 	}
 	public function modificarCita($id)
 	{	
@@ -426,7 +426,7 @@ class PacienteController extends BaseController {
 				'sabado' => 5
 			);
 		$paciente= Auth::user()->persona->paciente;
-		$id_cita_anterior=Input::get('cita_id');
+		$id_cita_anterior=Input::get('cita_id_anterior');
 		$cita = $this->repositorio_citas->crearCita($tipo,0,$turno,$numeroDia[$dia]);
 		$cita->paciente()->associate($paciente);
 		$cita->medico()->associate($medico);
@@ -465,7 +465,7 @@ class PacienteController extends BaseController {
 		$correomedico=$cita->medico->email;
 		mail($correopaciente, 'Modificacion de cita', "Su cita ha sido modificada correctamente");
 		mail($correomedico, 'Cancelacion de Cita', "Le cancelaron la cita con ".$cita->paciente->persona->nombre);
-		return Redirect::to('/')->with('message','Se ha modificado su cita correctamente ');
+		return Redirect::action('PacienteController@listarMedicos')->with('message','Se ha modificado su cita correctamente ');
 
 
 		
