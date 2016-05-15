@@ -22,6 +22,11 @@ class UsuarioController extends BaseController {
 		$usuarios = $this->repositorio_usuarios->listarUsuarios();
     	return View::make('usuarios')->with('usuarios', $usuarios);
 	}
+	public function reiniciarMedicos()
+	{
+		$this->repositorio_medicos->reiniciaMedicos();
+		return Redirect::to('/')->with('message','Se han reiniciado los horarios de los medicos');
+	}
 
 	//muestra los detalles de un usuario especifico
 	public function detallesUsuario($usuario)

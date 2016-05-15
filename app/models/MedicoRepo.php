@@ -28,8 +28,7 @@ class MedicoRepo {
 	public function obtenerMedico($id)
 	{
 		return Medico::find($id);
-	}
-
+	}	
 	//busca un Medico por su llave primaria y lo borra
 	public function borrarMedico($id)
 	{
@@ -49,6 +48,19 @@ class MedicoRepo {
 	public function listarMedicos()
 	{
 		return Medico::all();
+	}
+	public function reiniciaMedicos()
+	{
+		$medicos=$this->listarMedicos();
+		foreach ($medicos as $medico) {
+			$medico->lunes='0000000000000000';		
+			$medico->martes='0000000000000000';		
+			$medico->miercoles='0000000000000000';		
+			$medico->jueves='0000000000000000';		
+			$medico->viernes='0000000000000000';		
+			$medico->sabado='0000000000000000';
+			$medico->save();		
+		}	
 	}
 	public function listarMedicosByEps($id_eps)
 	{
