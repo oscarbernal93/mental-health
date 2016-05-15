@@ -50,6 +50,10 @@ class MedicoRepo {
 	{
 		return Medico::all();
 	}
+	public function listarMedicosByEps($id_eps)
+	{
+		return Medico::query()->where('id_eps','=',$id_eps)->get();
+	}
 
 	//crea un collection con todos las solicitudes pendientes de aprobacion
 	public function listarSolicitudes($id_eps)

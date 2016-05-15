@@ -6,7 +6,7 @@ class UsuarioController extends BaseController {
 	private $repositorio_pacientes;
 	private $repositorio_medicos;
 	private $repositorio_eps;
-
+	private $repositorio_personas;
 	function __construct()
 	{
 		$this->repositorio_usuarios = new UsuarioRepo;

@@ -127,10 +127,11 @@ class MedicoController extends BaseController {
 			'4' => 'success',
 			);
 		if (Auth::check()) {
-			if(Auth::user()->persona){
-				$medico = Auth::user()->persona->medico;
-			}else{
+			$persona = Auth::user()->persona;
+			if (is_null($persona)) {
 				$medico = NULL;
+			}else{
+				$medico = $persona->medico;
 			}
 			if (!is_null($medico)){
 				$turnos = array();
@@ -145,6 +146,10 @@ class MedicoController extends BaseController {
 			}
 			else
 			{
+				$paciente = $persona->paciente;
+				if (!is_null($paciente)) {
+					return Redirect::action('PacienteController@listarMedicos');
+				}
 				return Redirect::to('/')->with('message','Usted no es medico');
 			}
 		}
@@ -156,7 +161,12 @@ class MedicoController extends BaseController {
 	public function formularioEditarHorario()
 	{		
 		if (Auth::check()) {
-			$medico = Auth::user()->persona->medico;
+			$persona = Auth::user()->persona;
+			if (is_null($persona)) {
+				$medico = NULL;
+			}else{
+				$medico = $persona->medico;
+			}
 			if (!is_null($medico)){
 				if((!is_null($medico->especialidad))and($medico->general==1)){				
 				$estados = array(

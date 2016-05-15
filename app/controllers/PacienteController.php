@@ -6,13 +6,16 @@ class PacienteController extends BaseController {
 	private $repositorio_pacientes;
 	private $repositorio_personas;
 	private $repositorio_eps;
-
+	private $repositorio_medicos;
+	private $repositorio_citas;
 	function __construct()
 	{
 		$this->repositorio_usuarios = new UsuarioRepo;
 		$this->repositorio_pacientes = new PacienteRepo;
 		$this->repositorio_personas = new PersonaRepo;
 		$this->repositorio_eps = new EpsRepo;
+		$this->repositorio_medicos = new MedicoRepo;
+		$this->repositorio_citas = new CitaRepo;
 	}
 
 	//recibe, valida y guarda la informacion del registro
@@ -198,5 +201,100 @@ class PacienteController extends BaseController {
 		mail($destinatario, 'Correo de Notificacion', "Su solicitud para registrarse como Paciente en nuestra plataforma ha sido rechazada");
 		//se redirecciona
 		return Redirect::to('/')->with('message','Paciente eliminado correctamente');
+	}
+	public function listarMedicos()
+	{
+		$usuario= Auth::user();
+		if(!is_null($usuario)){
+			if(!is_null($usuario->persona)){
+				if(!is_null($usuario->persona->paciente)){
+					$medicos = $this->repositorio_medicos->listarMedicosByEps($usuario->persona->paciente->eps->id);
+					return View::make('paciente.medicos')->with('medicos',$medicos);
+				}else{
+					return Redirect::to('/')->with('message','Usted no ha iniciado sesion como paciente');
+				}						
+			}else{
+				return Redirect::to('/')->with('message','Usted no deberia estar en esta seccion');
+			}
+		}else{
+			return Redirect::to('/')->with('message','Usted no ha iniciado sesion correctamente');
+		}
+	}
+	public function verHorarioMedico($id_medico)
+	{
+		$medico = $this->repositorio_medicos->obtenerMedico($id_medico);
+		$dia = date('N');
+		$dia = 1; //ESTO SE TIENE QUE QUITAR
+		//SOLO ESTA PUESTO PARA HACER PRUEBAS
+		//Y USO TODO EL TIEMPO MAYUSCULAS SOSTENIDAS
+		//PARA LLAMAR LA ATENCION Y QUE ESTO SE VEA
+		//PORQUE AL SER SOLO ALGO DE PRUEBA
+		//DEBE QUITARSE OBLIGATORIAMENTE
+		//Y SI NO SE QUITA, QUEDARÁ MAL Y LECHUS
+		//NOS MATARÁ A TODOS (IGUAL ESO ULTIMO PASARÁ
+		//SIN IMPORTAR EL MOTIVO, PERO ALMENOS QUE NO
+		//SEA POR ESO).
+		$horario = array(
+				1=>$medico->lunes,
+				2=>$medico->martes,
+				3=>$medico->miercoles,
+				4=>$medico->jueves,
+				5=>$medico->viernes,
+				6=>$medico->sabado);
+		$datos = array();
+		for ($i=$dia;$i<7;$i++){
+			$datos[$i]=$horario[$i];
+		}
+		$temp = array(
+			1=>'lunes',
+			2=>'martes',
+			3=>'miercoles',
+			4=>'jueves',
+			5=>'viernes',
+			6=>'sabado'
+		);
+		foreach ($datos as $dato) {
+			$dato=str_replace("1","0", $dato);
+			$dato=str_replace("2","0", $dato);
+		}
+		$salida=array();
+		$j=0;
+		for($i=$dia;$i<7;$i++){
+			for($j=0;$j<16;$j++){
+				if(substr($datos[$i],$j,1)!='0'){
+					$estado='General';
+					if (substr($datos[$i],$j,1)=='4'){
+						$estado='Especialista';
+					}
+					$salida[]=array('dia'=>$temp[$i],'tipo'=>$estado,'turno'=>$j);
+				}
+			}
+		}
+		return View::make('paciente.disponibilidad')->with('datos',$salida)->with('medico',$medico->persona->nombre)->with('medico_id',$medico->id);
+	}
+	public function pedirCita()
+	{
+		$medico=Input::get('medico');
+		$medico=$this->repositorio_medicos->obtenerMedico($medico);
+		$explosion = explode('-', Input::get('cita'));
+		$dia = $explosion[0];
+		$turno = $explosion[1];
+		$turnos_del_dia_actual=substr($medico->$dia,0);
+		if ($turnos_del_dia_actual[(int)$turno]=='3'){
+			$tipo='General';
+		}else{
+			$tipo='Especialista';
+		}
+		$paciente= Auth::user()->persona->paciente;
+		$cita = $this->repositorio_citas->crearCita($tipo,0,$turno,$dia);
+		$cita->paciente()->associate($paciente);
+		$cita->medico()->associate($medico);
+		//$medico->$dia[(int)$turno]=((int)$medico->$dia[(int)$turno])-2;
+		$turnos_del_dia_actual[$turno] = $turnos_del_dia_actual[$turno] -2;
+		$medico->$dia=$turnos_del_dia_actual;
+		//se guardan los cambios
+		$medico->save();
+		$cita->save();
+		return Redirect::to('/')->with('message','Se ha guardado su cita');
 	}
 }

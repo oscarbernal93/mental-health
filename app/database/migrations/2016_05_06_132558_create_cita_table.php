@@ -12,7 +12,7 @@ class CreateCitaTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('usuario', function($table)
+		Schema::create('cita', function($table)
 		    {
 		    	//Campos de la tabla
 		        $table->integer('id',true);
@@ -28,7 +28,6 @@ class CreateCitaTable extends Migration {
 		        $table->softDeletes();
 
 		        //definicion de llaves
-		        $table->primary('id');
 		        $table->foreign('id_paciente')->references('id')->on('paciente');
 		        $table->foreign('id_medico')->references('id')->on('medico');
 		        $table->foreign('id_medico_remitente')->references('id')->on('medico');

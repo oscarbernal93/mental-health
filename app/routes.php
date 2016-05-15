@@ -35,6 +35,9 @@ Route::post('paciente/guardar-rrsp', 'PacienteController@guardarReRolSinPersona'
 Route::post('solicitudes/paciente/aprobar/', 'PacienteController@aprobarSolicitud');
 Route::post('solicitudes/paciente/eliminar/', 'PacienteController@borrarSolicitud');
 Route::post('paciente/guardare', 'PacienteController@guardarEdicion');
+Route::get('lista/medicos', 'PacienteController@listarMedicos');
+Route::get('medico/agenda/{id}', 'PacienteController@verHorarioMedico');
+Route::post('medico/agenda/', 'PacienteController@pedirCita');
 //rutas de medico
 Route::post('medico/guardar', 'MedicoController@guardarRegistro');
 Route::post('solicitudes/medico/aprobar/', 'MedicoController@aprobarSolicitud');
