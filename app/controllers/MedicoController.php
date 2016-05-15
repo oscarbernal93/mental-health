@@ -370,5 +370,35 @@ class MedicoController extends BaseController {
 			return Redirect::to('/')->with('message','El cambio se ha realizado "correctamente"');
 		}
 	}
+	public function eliminarHorario()
+	{
+		if (Auth::check()) {
+			$persona = Auth::user()->persona;
+			if (is_null($persona)) {
+				$medico = NULL;
+			}else{
+				$medico = $persona->medico;
+			}
+			if (!is_null($medico)){
+				$medico->lunes='0000000000000000';
+				$medico->martes='0000000000000000';
+				$medico->miercoles='0000000000000000';
+				$medico->jueves='0000000000000000';
+				$medico->viernes='0000000000000000';
+				$medico->sabado='0000000000000000';
+				$medico->save();
+				return Redirect::to('/')->with('message','Agenda reseteada');
+				
+			}
+			else
+			{
+				return Redirect::to('/')->with('message','Usted no es medico');
+			}
+		}
+		else
+		{
+			return Redirect::to('/')->with('message','usted no ha iniciado sesion correctamente');
+		}
+	}
 
 }

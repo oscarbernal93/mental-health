@@ -54,6 +54,7 @@ Route::get('medico/horario/editar', 'MedicoController@formularioEditarHorario');
 Route::post('medico/horario/editar', 'MedicoController@editarHorario');
 Route::post('medico/rerolcon', 'MedicoController@guardarReRolConPersona');
 Route::post('medico/rerolsin', 'MedicoController@guardarReRolSinPersona');
+Route::get('medico/horario/eliminar', 'MedicoController@eliminarHorario');
 Route::post('medico/gen2esp', 'MedicoController@guardarGen2esp');
 //rutas de Eps
 Route::post('eps/guardar', 'EpsController@guardarRegistro');

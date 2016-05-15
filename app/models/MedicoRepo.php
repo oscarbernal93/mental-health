@@ -59,7 +59,9 @@ class MedicoRepo {
 			$medico->jueves='0000000000000000';		
 			$medico->viernes='0000000000000000';		
 			$medico->sabado='0000000000000000';
-			$medico->save();		
+			$medico->save();
+			mail($entidad->email, 'ACTUALIZR AGENDA', "Se ha reiniciado su agenda, porfavor actualizela lo mas pronto posible");
+
 		}	
 	}
 	public function listarMedicosByEps($id_eps)

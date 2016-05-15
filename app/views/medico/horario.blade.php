@@ -32,6 +32,7 @@
 
 	</table>
 	<a href= '{{action('MedicoController@formularioEditarHorario')}}'><button>Editar</button></a>
+	<a href= '{{action('MedicoController@eliminarHorario')}}'><button>Eliminar :o</button></a>
 	
 </div>
 @endsection
