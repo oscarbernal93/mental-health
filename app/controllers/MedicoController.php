@@ -217,7 +217,12 @@ class MedicoController extends BaseController {
 		foreach ($dias as $dia) {
 			$temp='';
 			for($j=0;$j<16;$j++){
-				$temp.=$horario[$dia.$j];
+				if (array_key_exists ( $dia.$j , $horario)){
+					$temp.=$horario[$dia.$j];
+				}else{
+					$temp2=$medico->$dia;
+					$temp.=$temp2[$j];
+				}
 			}
 			$salida[$dia]=$temp;	
 		}

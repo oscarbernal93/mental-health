@@ -9,7 +9,7 @@
 			<th>Turno</th>
 			<th>Lunes</th>
 			<th>Martes</th>
-			<th>Miercoles</th>
+			<th>Miercoles</th> 
 			<th>Jueves</th>
 			<th>Viernes</th>
 			<th>Sabado</th>
@@ -23,9 +23,15 @@
 				@endif
 				@foreach($turnos as $dia => $turno)
 				<?php //{{$estado[substr($turno,$i,1)]}} ?>
-					<td>
-						{{ Form::select($dia.$i, $estados, substr($turno,$i,1)) }}
-					</td>
+					@if(($turno[$i]=='0')or($turno[$i]=='3')or($turno[$i]=='4'))
+						<td>{{ Form::select($dia.$i, $estados, substr($turno,$i,1)) }}</td>
+					@else
+						@if ($turno[$i]=='1')
+							<td>Cita General</td>
+						@else
+							<td>Cita Esp.</td>
+						@endif
+					@endif					
 				@endforeach
 			</tr>
 		@endfor

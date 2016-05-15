@@ -5,7 +5,7 @@
 	<h1>Registro de Medico General en Mental Health</h1>
 	<table class='table table-condensed table-bordered'>
 		<thead>
-			<tr>
+			<tr> 
 				<th>Turno</th>
 				<th>Lunes</th>
 				<th>Martes</th>
