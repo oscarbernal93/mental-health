@@ -56,8 +56,8 @@ class UsuarioController extends BaseController {
 		$token=base64_encode(Hash::make($usuario.$entidad->passhash));
 		//generar un token-link y enviarlo al correo
 		$link=action('UsuarioController@rehacer',array($usuario,$token));
-		mail($entidad->email, 'Recuperacion de contraseña', "para recuperar su contraseña ingrese a <a href=\"$link\">$link</a>");
-		return Redirect::to('/')->with('message','se ha mandado un correo de recuperacion! '.$link);
+		mail($entidad->email, 'Recuperacion de contrasena', "para recuperar su contrasena ingrese a <a href=\"$link\">$link</a>");
+		return Redirect::to('/')->with('message','se ha mandado un correo de recuperacion a'.$entidad->email.'! '.$link);
 	}
 	public function rehacer($usuario,$token)
 	{

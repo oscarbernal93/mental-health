@@ -304,6 +304,10 @@ class PacienteController extends BaseController {
 		//se guardan los cambios
 		$medico->save();
 		$cita->save();
+		$correopaciente=$cita->paciente->persona->email;
+		$correomedico=$cita->medico->persona->email;
+		mail($correopaciente, 'Correo de Notificacion Cita', "Su cita ha sido guardada correctamente");
+		mail($correomedico, 'Correo de Notificacion Cita', "Se le ha asignado una cita");
 		return Redirect::to('/')->with('message','Se ha guardado su cita');
 	}
 }
