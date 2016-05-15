@@ -20,6 +20,10 @@ class CitaRepo {
 	{
 		return Cita::query()->where('id','=',$id)->first();
 	}
+	public function citasByMedicoTerminadas($id)
+	{
+		return Cita::query()->where('id_medico','=',$id)->where('finalizado','=',false)->get();
+	}
 	public function listarCitasByPaciente($id)
 	{
 		return Cita::query()->where('id_paciente','=',$id)->get();

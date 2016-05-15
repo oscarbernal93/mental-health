@@ -6,6 +6,7 @@ class MedicoController extends BaseController {
 	private $repositorio_medicos;
 	private $repositorio_personas;
 	private $repositorio_eps;
+	private $repositorio_citas;
 
 	function __construct()
 	{
@@ -13,6 +14,7 @@ class MedicoController extends BaseController {
 		$this->repositorio_medicos = new MedicoRepo;
 		$this->repositorio_personas = new PersonaRepo;
 		$this->repositorio_eps = new EpsRepo;
+		$this->repositorio_citas = new CitaRepo;
 	}
 
 	//recibe, valida y guarda la informacion del registro
@@ -387,6 +389,10 @@ class MedicoController extends BaseController {
 				$medico->viernes='0000000000000000';
 				$medico->sabado='0000000000000000';
 				$medico->save();
+				$citas=$this->repositorio_citas->citasByMedicoTerminadas($medico->id);
+				foreach ($citas as $cita) {
+					$this->repositorio_citas->borrarCita($cita->id);
+				}
 				return Redirect::to('/')->with('message','Agenda reseteada');
 				
 			}
