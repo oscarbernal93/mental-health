@@ -23,13 +23,46 @@
 					@endif
 					</td>
 					<td>
-						<a href="{{action('PacienteController@verHorarioMedico',$medico->id)}}">reservar</a>
+						<a href="{{action('PacienteController@verHorarioMedico',$medico->id)}}"><button>reservar</button></a>
 					</td>
 				</tr>
 			@endforeach
 		</tbody>
+	</table>
 
-	</table>	
+	<h3>Mis Citas :3</h3>
+	<table class="table table-condensed table-bordered">
+		<thead>
+			<tr>
+				<td>Dia</td>
+				<td>Hora</td>
+				<td>Tipo de Cita</td>
+				<td>Nombre del Medico</td>
+				<td>Opciones</td>
+			</tr>
+		</thead>
+		<tbody>
+		@foreach($citas as $cita)
+			<tr>
+				<td>
+					{{$dias[$cita->dia]}}
+					<?php $i=$cita->turno; ?>
+					@if ($i%2==0)
+						<td >{{(($i < 8)?8:10 )+$i/2}}:00</td>
+					@else
+						<td>{{(($i < 8)?8:10 )+($i-1)/2}}:30</td>
+					@endif
+				</td>
+				<td>{{$cita->tipo}}</td>
+				<td>{{$cita->medico->persona->nombre}}</td>
+				<td>
+				<button onclick="alert('no implementado aun :P')">Eliminar</button>
+				<button onclick="alert('no implementado aun :P')">Calificar</button>
+				</td>
+			</tr>
+		@endforeach
+		</tbody>
+	</table>
 </div>
 @endsection
 

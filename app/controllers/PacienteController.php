@@ -204,12 +204,21 @@ class PacienteController extends BaseController {
 	}
 	public function listarMedicos()
 	{
+		$dias = array(
+			0=>'lunes',
+			1=>'martes',
+			2=>'miercoles',
+			3=>'jueves',
+			4=>'viernes',
+			5=>'sabado'
+		);
 		$usuario= Auth::user();
 		if(!is_null($usuario)){
 			if(!is_null($usuario->persona)){
 				if(!is_null($usuario->persona->paciente)){
 					$medicos = $this->repositorio_medicos->listarMedicosByEps($usuario->persona->paciente->eps->id);
-					return View::make('paciente.medicos')->with('medicos',$medicos);
+					$citas = $this->repositorio_citas->listarCitasByPaciente($usuario->persona->paciente->id);
+					return View::make('paciente.medicos')->with('medicos',$medicos)->with('citas',$citas)->with('dias',$dias);
 				}else{
 					return Redirect::to('/')->with('message','Usted no ha iniciado sesion como paciente');
 				}						

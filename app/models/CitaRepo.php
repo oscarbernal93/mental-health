@@ -20,6 +20,10 @@ class CitaRepo {
 	{
 		return Cita::query()->where('id','=',$id)->first();
 	}
+	public function listarCitasByPaciente($id)
+	{
+		return Cita::query()->where('id_paciente','=',$id)->get();
+	}
 
 	//busca una Cita por su llave primaria y la borra
 	public function borrarCita($id)

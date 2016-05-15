@@ -156,7 +156,7 @@ class UsuarioController extends BaseController {
 		$tipos_estciv = array('soltero' => 'Soltero',
 					   	      'casado' => 'Casado',
 					   	      'complicado' => 'Es Complidado',
-					   	      'triste' => 'Lechus no me Quiere');
+					   	      'triste' => 'Lechus no me Quiere :(');
 		$tipo = Input::get('tipo');
 		if("paciente"==$tipo)
 		{
@@ -357,7 +357,7 @@ class UsuarioController extends BaseController {
 		$tipos_estciv = array('soltero' => 'Soltero',
 					   	      'casado' => 'Casado',
 					   	      'complicado' => 'Es Complidado',
-					   	      'triste' => 'Lechus no me Quiere');
+					   	      'triste' => 'Lechus no me Quiere :(');
 		$rol = Input::get('rol');
 		$usuario = Auth::user();
 		if ('admin' == $rol)
