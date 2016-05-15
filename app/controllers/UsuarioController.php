@@ -106,7 +106,12 @@ class UsuarioController extends BaseController {
 		if(is_null($persona))
 		{
 			$persona = $this->repositorio_personas->obtenerPersonaByDoc($usuario);
-			$persona = $persona->usuario;
+			if(!is_null($persona)){
+				$persona = $persona->usuario;
+			}
+			else{
+				return Redirect::to('/')->with('message','No hemos encontrado su usuario');
+			}
 		}
 		if (Hash::check($password, $persona->passhash))
 		{
