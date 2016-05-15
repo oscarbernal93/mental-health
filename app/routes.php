@@ -34,6 +34,7 @@ Route::post('paciente/guardar-rrcp', 'PacienteController@guardarReRolConPersona'
 Route::post('paciente/guardar-rrsp', 'PacienteController@guardarReRolSinPersona');
 Route::get('paciente/cita/eliminar', 'PacienteController@eliminarCita');
 Route::post('paciente/cita/eliminar', 'PacienteController@eliminarCita');
+Route::get('paciente/cita/modificar/{id}', 'PacienteController@modificarCita');
 
 Route::post('solicitudes/paciente/aprobar/', 'PacienteController@aprobarSolicitud');
 Route::post('solicitudes/paciente/eliminar/', 'PacienteController@borrarSolicitud');
@@ -49,8 +50,8 @@ Route::post('medico/guardare', 'MedicoController@guardarEdicion');
 Route::get('medico/horario', 'MedicoController@verHorario');
 Route::get('medico/horario/editar', 'MedicoController@formularioEditarHorario');
 Route::post('medico/horario/editar', 'MedicoController@editarHorario');
-Route::get('medico/rerolcon', 'MedicoController@guardarReRolConPersona');
-Route::get('medico/rerolsin', 'MedicoController@guardarReRolSinPersona');
+Route::post('medico/rerolcon', 'MedicoController@guardarReRolConPersona');
+Route::post('medico/rerolsin', 'MedicoController@guardarReRolSinPersona');
 Route::post('medico/gen2esp', 'MedicoController@guardarGen2esp');
 //rutas de Eps
 Route::post('eps/guardar', 'EpsController@guardarRegistro');

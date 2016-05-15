@@ -56,14 +56,12 @@
 				<td>{{$cita->tipo}}</td>
 				<td>{{$cita->medico->persona->nombre}}</td>
 				<td>
-				{{ Form::open(array('action' => 'PacienteController@eliminarCita'))}}
-					
-					<div>
+				{{ Form::open(array('action' => 'PacienteController@eliminarCita','class' => 'form-inline col-md-3'))}}					
 						{{ Form::hidden('id',$cita->id) }}
 						{{ Form::submit('Eliminar!')}}
-					</div>
 				{{ Form::close() }}
-				<button onclick="alert('no implementado aun :P')">Calificar</button>
+				<a href="{{action('PacienteController@modificarCita',$cita->id)}}" class="col-md-3"><button>Modificar!</button></a>
+				<a href="#" class="col-md-3"><button onclick="alert('no implementado aun :P')">Calificar</button></a>
 				</td>
 			</tr>
 		@endforeach

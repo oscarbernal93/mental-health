@@ -349,4 +349,125 @@ class PacienteController extends BaseController {
 		mail($correomedico, 'Cancelacion de Cita', "Le cancelaron la cita con ".$cita->paciente->persona->nombre);
 		return Redirect::to('/')->with('message','Se ha eliminado su cita con el doctor ');
 	}
+	public function modificarCita($id)
+	{	
+		$cita = $this->repositorio_citas->obtenerCita($id);
+		$medico = $cita->medico;
+		$dia = date('N');
+		$dia = 1; //ESTO SE TIENE QUE QUITAR
+		//SOLO ESTA PUESTO PARA HACER PRUEBAS
+		//Y USO TODO EL TIEMPO MAYUSCULAS SOSTENIDAS
+		//PARA LLAMAR LA ATENCION Y QUE ESTO SE VEA
+		//PORQUE AL SER SOLO ALGO DE PRUEBA
+		//DEBE QUITARSE OBLIGATORIAMENTE
+		//Y SI NO SE QUITA, QUEDARÁ MAL Y LECHUS
+		//NOS MATARÁ A TODOS (IGUAL ESO ULTIMO PASARÁ
+		//SIN IMPORTAR EL MOTIVO, PERO ALMENOS QUE NO
+		//SEA POR ESO).
+		$horario = array(
+				1=>$medico->lunes,
+				2=>$medico->martes,
+				3=>$medico->miercoles,
+				4=>$medico->jueves,
+				5=>$medico->viernes,
+				6=>$medico->sabado);
+		$datos = array();
+		for ($i=$dia;$i<7;$i++){
+			$datos[$i]=$horario[$i];
+		}
+		$temp = array(
+			1=>'lunes',
+			2=>'martes',
+			3=>'miercoles',
+			4=>'jueves',
+			5=>'viernes',
+			6=>'sabado'
+		);
+		foreach ($datos as $dato) {
+			$dato=str_replace("1","0", $dato);
+			$dato=str_replace("2","0", $dato);
+		}
+		$salida=array();
+		$j=0;
+		for($i=$dia;$i<7;$i++){
+			for($j=0;$j<16;$j++){
+				if(substr($datos[$i],$j,1)!='0'){
+					$estado='General';
+					if (substr($datos[$i],$j,1)=='4'){
+						$estado='Especialista';
+					}
+					$salida[]=array('dia'=>$temp[$i],'tipo'=>$estado,'turno'=>$j);
+				}
+			}
+		}
+		return View::make('paciente.modificar')->with('datos',$salida)->with('medico',$medico->persona->nombre)->with('medico_id',$medico->id)->with('cita_id_anterior',$cita->id);
+		
+
+	}
+	public function efectuarCambioCita()
+	{
+		$medico=Input::get('medico');
+		$medico=$this->repositorio_medicos->obtenerMedico($medico);
+		$explosion = explode('-', Input::get('cita'));
+		$dia = $explosion[0];
+		$turno = $explosion[1];
+		$turnos_del_dia_actual=substr($medico->$dia,0);
+		if ($turnos_del_dia_actual[(int)$turno]=='3'){
+			$tipo='General';
+		}else{
+			$tipo='Especialista';
+		}
+		$numeroDia = array(
+				'lunes' => 0, 
+				'martes' => 1, 
+				'miercoles' => 2, 
+				'jueves' => 3, 
+				'viernes' => 4, 
+				'sabado' => 5
+			);
+		$paciente= Auth::user()->persona->paciente;
+		$id_cita_anterior=Input::get('cita_id');
+		$cita = $this->repositorio_citas->crearCita($tipo,0,$turno,$numeroDia[$dia]);
+		$cita->paciente()->associate($paciente);
+		$cita->medico()->associate($medico);
+		$turnos_del_dia_actual[$turno] = $turnos_del_dia_actual[$turno] -2;
+		$medico->$dia=$turnos_del_dia_actual;
+		//se guardan los cambios
+		$medico->save();
+		$cita->save();
+		$correomedico=$cita->medico->email;
+		//Aqui se empieza el proceso d eliminacion
+		$id= $id_cita_anterior;
+		$cita=$this->repositorio_citas->obtenerCita($id);
+		$medico=$cita->medico;
+		$dia=$cita->dia;
+		$turno=$cita->turno;
+		if($dia==0){
+			$dia='lunes';
+		}elseif($dia==1){
+			$dia='martes';
+		}elseif($dia==2){
+			$dia='miercoles';
+		}elseif($dia==3){
+			$dia='jueves';
+		}elseif($dia==4){
+			$dia='viernes';
+		}elseif($dia==5){
+			$dia='sabado';
+		}
+		$temp=$medico->$dia;
+		$temp[$turno]='0';
+		$medico->$dia=$temp;
+		$medico->save();
+		$this->repositorio_citas->borrarCita($id);
+		mail($correomedico, 'Correo de Notificacion Cita', "Se le ha asignado una cita");
+		$correopaciente=$cita->paciente->persona->usuario->email;
+		$correomedico=$cita->medico->email;
+		mail($correopaciente, 'Modificacion de cita', "Su cita ha sido modificada correctamente");
+		mail($correomedico, 'Cancelacion de Cita', "Le cancelaron la cita con ".$cita->paciente->persona->nombre);
+		return Redirect::to('/')->with('message','Se ha modificado su cita correctamente ');
+
+
+		
+	}
 }
