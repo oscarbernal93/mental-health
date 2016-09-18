@@ -3,3 +3,18 @@
 /public/uploads
 .DS_Store
 Thumbs.db
+composer.phar
+composer.lock
+.env.*.php
+.env.php
+.DS_Store
+Thumbs.db
+*.*~
+
+vendor/
+node_modules/
+
+# Laravel 4 specific
+bootstrap/compiled.php
+app/storage/
+
